@@ -50,7 +50,7 @@ class CongklakView: View {
             //button.isEnabled = false
             button.addTarget(self, action: #selector(pickHole), for: .touchUpInside)
             button.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
-            button.alpha = 0.6
+            button.alpha = 0.3
             return button
         }()
         
@@ -104,7 +104,7 @@ class CongklakView: View {
     func lockButton() {
         for button in buttons {
             button.isEnabled = false
-            button.alpha = 0.6
+            button.alpha = 0.3
         }
     }
     
