@@ -12,6 +12,7 @@ class CongklakController: ViewController<CongklakView> {
     var shellsInHand = Int()
     var timer: Timer?
     var previousIndex: Int!
+    var totalSteps = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,26 +21,18 @@ class CongklakController: ViewController<CongklakView> {
         }
     }
     
-    func isMoveAround(index: Int) {
-        if previousIndex != nil {
-            screenView.buttons[previousIndex].alpha = 0.3
-        }
-        screenView.buttons[index].alpha = 1
-        
-    }
-    
     func startPlaying(pickedHole: Int) {
         var index = pickedHole
         
         shellsInHand = screenView.holes[index]
         screenView.holes[index] = 0
+        screenView.buttons[index].setTitle("\(screenView.holes[index])", for: .normal)
         index += 1
         
         timer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: true, block: { [self] timer in
-            
             if shellsInHand > 0 {
-                var shouldContinue = false
-
+                totalSteps += 1
+                
                 // CHECK IF THE HOLE IS THE LAST ELEMENT OF ARRAY
                 if index > screenView.holes.count-1 {
                     index = 0
@@ -53,63 +46,112 @@ class CongklakController: ViewController<CongklakView> {
                     index += 1
                 }
                 //UPDATE UI
-                isMoveAround(index: index)
+                updateUI(index: index)
                 
                 // CEK IF SHELLS IN HAND SISA 1
                 if shellsInHand == 1 {
-                    //CEK APAKAH DI STOREHOUSE MILIK SENDIRI
-                    if (index == 7 && screenView.currentPlayer == .player1) || (index == 15 && screenView.currentPlayer == .player2){
-                        //isMoveAround(index: index)
-                        screenView.holes[index] += 1
-                        shellsInHand -= 1
-                        //currentPlayer play lg
-                        print(screenView.holes)
-                        timer.invalidate()
-                    }
-                    
-//                    else if (index == 7 && screenView.currentPlayer != .player1) || (index == 15 && screenView.currentPlayer != .player2){
-//                        previousIndex = index
-//                        index += 1
-//                        shouldContinue = true
-//                    }
-                    // KETIKA BUKAN DI STOREHOUSE
-                    if index != 7 && index != 15 {
-                        // CEK APAKAH ADA SHEELDS DI CURRENTHOLE
-                        if screenView.holes[index] != 0 {
-                            //isMoveAround(index: index)
-                            shellsInHand = screenView.holes[index]+1
-                            screenView.holes[index] = 0
-                        }
-                        else {
-                            screenView.holes[index] += 1
-                            print(screenView.holes)
-                            timer.invalidate()
-                        }
-                    }
+                    isLastSheeld(index: index)
                 }
                 // SHEELDS MASIH ADA > 1
                 else {
-                    //SKIP STOREHOUSE LAWAN
-//                    if (index == 7 && screenView.currentPlayer != .player1) || (index == 15 && screenView.currentPlayer != .player2){
-//                        previousIndex = index
-//                        index += 1
-//                        shouldContinue = true
-//                    }
-                    //else {
-                        //isMoveAround(index: index)
-                        screenView.holes[index] += 1
-                        shellsInHand -= 1
-                    //}
+                    screenView.holes[index] += 1
+                    shellsInHand -= 1
                 }
-                if !shouldContinue {
-                    previousIndex = index
-                    index += 1
-                }
-                print(screenView.holes)
+                
+                updateNumberOfSheelds(index: index)
+                previousIndex = index
+                index += 1
+                
             } else {
                 timer.invalidate()
             }
         })
+    }
+    
+    func isLastSheeld(index: Int) {
+        //CEK APAKAH DI STOREHOUSE MILIK SENDIRI
+        if (index == 7 && screenView.currentPlayer == .player1) || (index == 15 && screenView.currentPlayer == .player2){
+            screenView.holes[index] += 1
+            shellsInHand -= 1
+            totalSteps = 0 // CURRENT PLAYER GET ANOTHER TURN
+            updateNumberOfSheelds(index: index)
+            screenView.unlockButton()
+            timer?.invalidate()
+        }
+
+        // KETIKA BUKAN DI STOREHOUSE
+        if index != 7 && index != 15 {
+            // CEK APAKAH ADA SHEELDS DI CURRENTHOLE
+            if screenView.holes[index] != 0 {
+                shellsInHand = screenView.holes[index]+1
+                screenView.holes[index] = 0
+            }
+            else {
+                screenView.holes[index] += 1
+                tembak(index: index)
+                print(screenView.holes)
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.6){
+                    self.switchTurn()
+                    self.screenView.unlockButton()
+                }
+                timer?.invalidate()
+            }
+        }
+    }
+    
+    func updateUI(index: Int) {
+        if previousIndex != nil {
+            screenView.buttons[previousIndex].alpha = 0.3
+        }
+        screenView.buttons[index].alpha = 1
+    }
+    
+    func updateNumberOfSheelds(index: Int) {
+        if shellsInHand == 1, screenView.holes[index] == 0, index != 7 && index != 15 {
+            for i in 0...15 {
+                screenView.buttons[i].setTitle("\(screenView.holes[i])", for: .normal)
+            }
+        }
+        else {
+            screenView.buttons[index].setTitle("\(screenView.holes[index])", for: .normal)
+        }
+    }
+    
+    func tembak(index: Int) {
+        if totalSteps >= 15 { // UNTUK CEK SUDAH SATU PUTARAN/BLM
+            let oppositeIndex = 14 - index
+            if screenView.holes[oppositeIndex] != 0 {
+                if screenView.currentPlayer == .player1 {
+                    screenView.holes[7] += screenView.holes[oppositeIndex]+1
+                    screenView.holes[index] = 0
+                    screenView.holes[oppositeIndex] = 0
+                    
+                    screenView.buttons[oppositeIndex].alpha = 1
+                    screenView.buttons[7].alpha = 1
+                }
+                else {
+                    screenView.holes[15] += screenView.holes[oppositeIndex]+1
+                    screenView.holes[index] = 0
+                    screenView.holes[oppositeIndex] = 0
+                    
+                    screenView.buttons[oppositeIndex].alpha = 1
+                    screenView.buttons[15].alpha = 1
+                }
+            }
+            updateNumberOfSheelds(index: index)
+        }
+    }
+    
+    func switchTurn() {
+        totalSteps = 0
+        
+        if screenView.currentPlayer == .player1 {
+            screenView.currentPlayer = .player2
+        }
+        else if screenView.currentPlayer == .player2{
+            screenView.currentPlayer = .player1
+        }
+        screenView.lockButton()
     }
     
 }

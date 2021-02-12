@@ -20,14 +20,16 @@ class CongklakView: View {
     var holes = Array(repeating: 7, count: 16) //Fill holes
     var currentPlayer: Player!
     var buttons: [UIButton] = []
+    var previousIndex = Int()
     
     override func setViews() {
-        currentPlayer = .player1
+        currentPlayer = .player2
+        fillHoles()
         generateHoles()
     }
     
     override func onViewDidLoad() {
-        fillHoles()
+        unlockButton()
     }
     
     func fillHoles() {
@@ -47,7 +49,7 @@ class CongklakView: View {
             button.setTitle("39", for: .normal)
             button.layer.cornerRadius = 8
             button.backgroundColor = .systemBlue
-            //button.isEnabled = false
+            button.isEnabled = false
             button.addTarget(self, action: #selector(pickHole), for: .touchUpInside)
             button.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
             button.alpha = 0.3
@@ -64,28 +66,25 @@ class CongklakView: View {
             holeButton.frame = CGRect(x: 0, y: 0, width: 50, height: 100)
             holeButton.center = CGPoint(x: player1X, y: deviceHeight/2)
         }
-        
         else if tag == 15 {
             holeButton.frame = CGRect(x: 0, y: 0, width: 50, height: 100)
             holeButton.backgroundColor = .systemRed
             holeButton.center = CGPoint(x: player2X + 600, y: deviceHeight/2)
         }
-        
         if tag < 7 {
             holeButton.center = CGPoint(x: (CGFloat((7-tag)*75) + player1X), y: player1Y)
         }
-
         else if tag > 7, tag < 15 {
             holeButton.backgroundColor = .systemRed
             holeButton.center = CGPoint(x: player2X + CGFloat(75*(tag-7)), y: player2Y)
         }
+        
         setButtonColor(tag: tag, button: holeButton)
-        holeButton.setTitle("\(tag)", for: .normal)
+        holeButton.setTitle("\(holes[tag])", for: .normal)
         holeButton.tag = tag
         buttons.append(holeButton)
         
         addSubview(holeButton)
-        
     }
     
     func setButtonColor(tag: Int, button: UIButton) {
@@ -105,6 +104,21 @@ class CongklakView: View {
         for button in buttons {
             button.isEnabled = false
             button.alpha = 0.3
+        }
+    }
+    
+    func unlockButton() {
+        if currentPlayer == .player1 {
+            for i in 0...7 {
+                buttons[i].isEnabled = true
+                buttons[i].alpha = 1
+            }
+        }
+        else {
+            for i in 8...15 {
+                buttons[i].isEnabled = true
+                buttons[i].alpha = 1
+            }
         }
     }
     
