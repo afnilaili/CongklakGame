@@ -9,12 +9,14 @@
 /* Begin PBXBuildFile section */
 		72FF937425D631600025716F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF937325D631600025716F /* AppDelegate.swift */; };
 		72FF937625D631600025716F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF937525D631600025716F /* SceneDelegate.swift */; };
-		72FF937825D631600025716F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF937725D631600025716F /* ViewController.swift */; };
-		72FF937B25D631600025716F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72FF937925D631600025716F /* Main.storyboard */; };
 		72FF937D25D631620025716F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72FF937C25D631620025716F /* Assets.xcassets */; };
 		72FF938025D631620025716F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72FF937E25D631620025716F /* LaunchScreen.storyboard */; };
 		72FF938B25D631620025716F /* CongklakGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF938A25D631620025716F /* CongklakGameTests.swift */; };
 		72FF939625D631620025716F /* CongklakGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF939525D631620025716F /* CongklakGameUITests.swift */; };
+		72FF93A825D634640025716F /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF93A725D634640025716F /* View.swift */; };
+		72FF93B025D635A00025716F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF93AF25D635A00025716F /* ViewController.swift */; };
+		72FF93B825D638990025716F /* CongklakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF93B725D638990025716F /* CongklakView.swift */; };
+		72FF93C025D63CE90025716F /* CongklakController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF93BF25D63CE90025716F /* CongklakController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,8 +40,6 @@
 		72FF937025D631600025716F /* CongklakGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CongklakGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72FF937325D631600025716F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72FF937525D631600025716F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		72FF937725D631600025716F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		72FF937A25D631600025716F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		72FF937C25D631620025716F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		72FF937F25D631620025716F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		72FF938125D631620025716F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,6 +49,10 @@
 		72FF939125D631620025716F /* CongklakGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CongklakGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		72FF939525D631620025716F /* CongklakGameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakGameUITests.swift; sourceTree = "<group>"; };
 		72FF939725D631620025716F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		72FF93A725D634640025716F /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		72FF93AF25D635A00025716F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		72FF93B725D638990025716F /* CongklakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakView.swift; sourceTree = "<group>"; };
+		72FF93BF25D63CE90025716F /* CongklakController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,8 +105,9 @@
 			children = (
 				72FF937325D631600025716F /* AppDelegate.swift */,
 				72FF937525D631600025716F /* SceneDelegate.swift */,
-				72FF937725D631600025716F /* ViewController.swift */,
-				72FF937925D631600025716F /* Main.storyboard */,
+				72FF93A625D634540025716F /* Base */,
+				72FF93B725D638990025716F /* CongklakView.swift */,
+				72FF93BF25D63CE90025716F /* CongklakController.swift */,
 				72FF937C25D631620025716F /* Assets.xcassets */,
 				72FF937E25D631620025716F /* LaunchScreen.storyboard */,
 				72FF938125D631620025716F /* Info.plist */,
@@ -126,6 +131,15 @@
 				72FF939725D631620025716F /* Info.plist */,
 			);
 			path = CongklakGameUITests;
+			sourceTree = "<group>";
+		};
+		72FF93A625D634540025716F /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				72FF93A725D634640025716F /* View.swift */,
+				72FF93AF25D635A00025716F /* ViewController.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,7 +247,6 @@
 			files = (
 				72FF938025D631620025716F /* LaunchScreen.storyboard in Resources */,
 				72FF937D25D631620025716F /* Assets.xcassets in Resources */,
-				72FF937B25D631600025716F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,7 +271,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72FF937825D631600025716F /* ViewController.swift in Sources */,
+				72FF93B825D638990025716F /* CongklakView.swift in Sources */,
+				72FF93C025D63CE90025716F /* CongklakController.swift in Sources */,
+				72FF93B025D635A00025716F /* ViewController.swift in Sources */,
+				72FF93A825D634640025716F /* View.swift in Sources */,
 				72FF937425D631600025716F /* AppDelegate.swift in Sources */,
 				72FF937625D631600025716F /* SceneDelegate.swift in Sources */,
 			);
@@ -296,14 +312,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		72FF937925D631600025716F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72FF937A25D631600025716F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		72FF937E25D631620025716F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
