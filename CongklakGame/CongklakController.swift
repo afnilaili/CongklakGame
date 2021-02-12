@@ -59,6 +59,7 @@ class CongklakController: ViewController<CongklakView> {
                 }
                 
                 updateNumberOfSheelds(index: index)
+                screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
                 previousIndex = index
                 index += 1
                 
@@ -75,6 +76,7 @@ class CongklakController: ViewController<CongklakView> {
             shellsInHand -= 1
             totalSteps = 0 // CURRENT PLAYER GET ANOTHER TURN
             updateNumberOfSheelds(index: index)
+            screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
             screenView.unlockButton()
             timer?.invalidate()
         }
@@ -139,18 +141,19 @@ class CongklakController: ViewController<CongklakView> {
                 }
             }
             updateNumberOfSheelds(index: index)
+            screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
         }
     }
     
     func switchTurn() {
-        totalSteps = 0
-        
         if screenView.currentPlayer == .player1 {
             screenView.currentPlayer = .player2
         }
         else if screenView.currentPlayer == .player2{
             screenView.currentPlayer = .player1
         }
+        totalSteps = 0
+        screenView.playerTurnLabel.text = "Current turn of the player : \(screenView.currentPlayer.rawValue)"
         screenView.lockButton()
     }
     

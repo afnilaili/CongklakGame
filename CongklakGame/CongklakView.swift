@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum Player {
+enum Player: String {
     case player1
     case player2
 }
@@ -20,12 +20,26 @@ class CongklakView: View {
     var holes = Array(repeating: 7, count: 16) //Fill holes
     var currentPlayer: Player!
     var buttons: [UIButton] = []
-    var previousIndex = Int()
+    var labels: [UILabel] = []
+    
+    lazy var playerTurnLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.font = .systemFont(ofSize: 17, weight: .medium)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.text = "Current turn of the player : \(currentPlayer.rawValue)"
+        label.frame = CGRect(x: 0, y: 20, width: deviceWidth, height: 50)
+        label.center = CGPoint(x: deviceWidth/2, y: deviceHeight/2)
+        return label
+    }()
     
     override func setViews() {
-        currentPlayer = .player2
+        currentPlayer = .player1
         fillHoles()
         generateHoles()
+        addSubview(playerTurnLabel)
+        backgroundColor = .black
     }
     
     override func onViewDidLoad() {
