@@ -7,19 +7,36 @@
 
 import UIKit
 
+enum Player {
+    case player1
+    case player2
+}
+
 class CongklakView: View {
     
     let deviceWidth = UIScreen.main.bounds.width
     let deviceHeight = UIScreen.main.bounds.height
     var holeTapped: ((Int) -> Void)?
+    var holes = Array(repeating: 7, count: 16) //Fill holes
+    var currentPlayer: Player!
+    var buttons: [UIButton] = []
     
     override func setViews() {
-        self.backgroundColor = .white
+        currentPlayer = .player1
         generateHoles()
+    }
+    
+    override func onViewDidLoad() {
+        fillHoles()
+    }
+    
+    func fillHoles() {
+        holes[7] = 0
+        holes[15] = 0
     }
 
     func generateHoles() {
-        for i in 0..<16 {
+        for i in 0..<holes.count {
             addButton(tag: i)
         }
     }
@@ -30,9 +47,10 @@ class CongklakView: View {
             button.setTitle("39", for: .normal)
             button.layer.cornerRadius = 8
             button.backgroundColor = .systemBlue
-            button.addTarget(self, action: #selector(chooseHole), for: .touchUpInside)
+            //button.isEnabled = false
+            button.addTarget(self, action: #selector(pickHole), for: .touchUpInside)
             button.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
-            button.alpha = 0.7
+            button.alpha = 0.6
             return button
         }()
         
@@ -61,13 +79,37 @@ class CongklakView: View {
             holeButton.backgroundColor = .systemRed
             holeButton.center = CGPoint(x: player2X + CGFloat(75*(tag-7)), y: player2Y)
         }
-        
+        setButtonColor(tag: tag, button: holeButton)
         holeButton.setTitle("\(tag)", for: .normal)
         holeButton.tag = tag
+        buttons.append(holeButton)
+        
         addSubview(holeButton)
+        
     }
     
-    @objc func chooseHole(sender: UIButton) {
+    func setButtonColor(tag: Int, button: UIButton) {
+        if currentPlayer == .player1 {
+            if tag <= 7 {
+                button.alpha = 1
+            }
+        }
+        else if currentPlayer == .player2 {
+            if tag > 7 {
+                button.alpha = 1
+            }
+        }
+    }
+    
+    func lockButton() {
+        for button in buttons {
+            button.isEnabled = false
+            button.alpha = 0.6
+        }
+    }
+    
+    @objc func pickHole(sender: UIButton) {
+        lockButton()
         holeTapped?(sender.tag)
     }
     
