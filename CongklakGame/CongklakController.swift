@@ -24,6 +24,12 @@ class CongklakController: ViewController<CongklakView> {
     func startPlaying(pickedHole: Int) {
         var index = pickedHole
         
+        // UNTUK CEK HOLE YANG DIPILIH ADA ISINYA/TIDAK KOSONG
+        if screenView.holes[index] == 0 {
+            screenView.playerTurnLabel.text = "IT'S EMPTY. CHOOSE ANOTHER HOLE"
+            screenView.unlockButton()
+        }
+        
         shellsInHand = screenView.holes[index]
         screenView.holes[index] = 0
         screenView.buttons[index].setTitle("\(screenView.holes[index])", for: .normal)
@@ -153,7 +159,7 @@ class CongklakController: ViewController<CongklakView> {
             screenView.currentPlayer = .player1
         }
         totalSteps = 0
-        screenView.playerTurnLabel.text = "Current turn of the player : \(screenView.currentPlayer.rawValue)"
+        screenView.playerTurnLabel.text = "\(screenView.currentPlayer.rawValue)'s turn"
         screenView.lockButton()
     }
     

@@ -28,7 +28,7 @@ class CongklakView: View {
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.textColor = .white
         label.textAlignment = .center
-        label.text = "Current turn of the player : \(currentPlayer.rawValue)"
+        label.text = "\(currentPlayer.rawValue)'s turn"
         label.frame = CGRect(x: 0, y: 20, width: deviceWidth, height: 50)
         label.center = CGPoint(x: deviceWidth/2, y: deviceHeight/2)
         return label
@@ -124,13 +124,17 @@ class CongklakView: View {
     func unlockButton() {
         if currentPlayer == .player1 {
             for i in 0...7 {
-                buttons[i].isEnabled = true
+                if i<7 {
+                    buttons[i].isEnabled = true
+                }
                 buttons[i].alpha = 1
             }
         }
         else {
             for i in 8...15 {
-                buttons[i].isEnabled = true
+                if i<15 {
+                    buttons[i].isEnabled = true
+                }
                 buttons[i].alpha = 1
             }
         }
