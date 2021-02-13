@@ -43,31 +43,42 @@ extension CongklakController {
             }
         }
     
+    func updateAfterTembak(index: Int, oppositeIndex: Int) {
+        if screenView.currentPlayer == .player1 {
+            screenView.holes[7] += screenView.holes[oppositeIndex]+1
+            screenView.holes[index] = 0
+            screenView.holes[oppositeIndex] = 0
+            
+            screenView.buttons[oppositeIndex].alpha = 1
+            screenView.buttons[7].alpha = 1
+        }
+        else {
+            screenView.holes[15] += screenView.holes[oppositeIndex]+1
+            screenView.holes[index] = 0
+            screenView.holes[oppositeIndex] = 0
+            
+            screenView.buttons[oppositeIndex].alpha = 1
+            screenView.buttons[15].alpha = 1
+        }
+    }
+    
     func tembak(index: Int) {
-           if totalSteps >= 15 { // UNTUK CEK SUDAH SATU PUTARAN/BLM
-               let oppositeIndex = 14 - index
-               if screenView.holes[oppositeIndex] != 0 {
-                   if screenView.currentPlayer == .player1 {
-                       screenView.holes[7] += screenView.holes[oppositeIndex]+1
-                       screenView.holes[index] = 0
-                       screenView.holes[oppositeIndex] = 0
-                       
-                       screenView.buttons[oppositeIndex].alpha = 1
-                       screenView.buttons[7].alpha = 1
-                   }
-                   else {
-                       screenView.holes[15] += screenView.holes[oppositeIndex]+1
-                       screenView.holes[index] = 0
-                       screenView.holes[oppositeIndex] = 0
-                       
-                       screenView.buttons[oppositeIndex].alpha = 1
-                       screenView.buttons[15].alpha = 1
-                   }
-               }
-               updateNumberOfSheelds(index: index)
-               screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
-           }
-       }
+        if totalSteps >= 15 { // UNTUK CEK SUDAH SATU PUTARAN/BLM
+            let oppositeIndex = 14 - index
+            if isNgacang {
+                if !ngacangs.contains(oppositeIndex), screenView.holes[oppositeIndex] != 0 {
+                    updateAfterTembak(index: index, oppositeIndex: oppositeIndex)
+                }
+            }
+            else {
+                if screenView.holes[oppositeIndex] != 0 {
+                    updateAfterTembak(index: index, oppositeIndex: oppositeIndex)
+                }
+            }
+            updateNumberOfSheelds(index: index)
+            screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
+        }
+    }
        
        func switchTurn() {
            if screenView.currentPlayer == .player1 {

@@ -18,12 +18,14 @@ extension CongklakController {
         // CEK IF PLAYER MENANG BIJI
         if screenView.holes[storeHouse] > 49 {
             leftover = screenView.holes[storeHouse] - 49
-            for i in smallestIndex..<storeHouse {
-                // PLAYER'S SIDE - RECOUNTS THE SHELLS INTO EACH HOLE
-                screenView.holes[i] = 7
-                screenView.holes[storeHouse] = leftover
-                print(screenView.holes)
-            }
+            screenView.holes = [0,0,0,0,0,14,0,0,7,7,7,7,7,7,7,0]
+            
+//            for i in smallestIndex..<storeHouse {
+//                // PLAYER'S SIDE - RECOUNTS THE SHELLS INTO EACH HOLE
+//                screenView.holes[i] = 7
+//                screenView.holes[storeHouse] = leftover
+//                print(screenView.holes)
+//            }
             
             // OPPONENT'S SIDE - RECOUNTS THE SHELLS INTO EACH HOLE
             numberOfOpponentShells = 49 - leftover
@@ -46,6 +48,10 @@ extension CongklakController {
             else {
                 screenView.playerTurnLabel.text = "Game is End, Ngacang's Hole is More Than 3"
             }
+        }
+        
+        else if screenView.holes[storeHouse] == 49 {
+            screenView.fillHoles()
         }
     }
     

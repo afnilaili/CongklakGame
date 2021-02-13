@@ -17,7 +17,7 @@ class CongklakView: View {
     let deviceWidth = UIScreen.main.bounds.width
     let deviceHeight = UIScreen.main.bounds.height
     var holeTapped: ((Int) -> Void)?
-//    var holes = Array(repeating: 7, count: 16) //Fill holes
+    //var holes: [Int] = [] //Fill holes
 //    var holes = [0,0,0,0,0,0,1,41,7,7,7,7,7,7,6,8] // ngacang 0,1
     var holes = [7,7,7,7,7,7,6,8,0,0,0,0,0,0,1,41] // ngacang 8,9
     var currentPlayer: Player!
@@ -45,6 +45,7 @@ class CongklakView: View {
     }
     
     func fillHoles() {
+        holes = Array(repeating: 7, count: 16)
         holes[7] = 0
         holes[15] = 0
     }
