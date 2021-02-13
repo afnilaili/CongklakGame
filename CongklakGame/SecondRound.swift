@@ -18,7 +18,8 @@ extension CongklakController {
         // CEK IF PLAYER MENANG BIJI
         if screenView.holes[storeHouse] > 49 {
             leftover = screenView.holes[storeHouse] - 49
-            screenView.holes = [0,0,0,0,0,14,0,0,7,7,7,7,7,7,7,0]
+            //screenView.holes = [0,0,0,0,0,14,0,0,7,7,7,7,7,7,7,0] // NGETES NGACANG BISA DITEMBAK/TIDAK
+            screenView.holes = [0,0,0,0,0,3,0,0,7,7,7,7,7,7,7,0] // NGETES NGACANG BISA DIAMBIL/TIDAK
             
 //            for i in smallestIndex..<storeHouse {
 //                // PLAYER'S SIDE - RECOUNTS THE SHELLS INTO EACH HOLE

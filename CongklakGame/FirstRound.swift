@@ -26,11 +26,28 @@ extension CongklakController {
             if index != 7 && index != 15 {
                 // CEK APAKAH ADA SHEELDS DI CURRENTHOLE
                 if screenView.holes[index] != 0 {
-                    shellsInHand = screenView.holes[index]+1
-                    screenView.holes[index] = 0
+                    if isNgacang {
+                        if !ngacangs.contains(index) {  // CAN'T TAKE SHELLS FROM NGACANG HOLE
+                            shellsInHand = screenView.holes[index]+1
+                            screenView.holes[index] = 0
+                        }
+                        else {
+                            shellsInHand -= 1
+                            screenView.holes[index] += 1
+                            DispatchQueue.main.asyncAfter(deadline: .now()+0.6){
+                                self.switchTurn()
+                                self.unlockButton()
+                            }
+                        }
+                    }
+                    else {
+                        shellsInHand = screenView.holes[index]+1
+                        screenView.holes[index] = 0
+                    }
                 }
                 else {
                     screenView.holes[index] += 1
+                    shellsInHand -= 1
                     tembak(index: index)
                     print(screenView.holes)
                     DispatchQueue.main.asyncAfter(deadline: .now()+0.6){
@@ -76,20 +93,20 @@ extension CongklakController {
                 }
             }
             updateNumberOfSheelds(index: index)
-            screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
+            //screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
         }
     }
-       
-       func switchTurn() {
-           if screenView.currentPlayer == .player1 {
-               screenView.currentPlayer = .player2
-           }
-           else if screenView.currentPlayer == .player2{
-               screenView.currentPlayer = .player1
-           }
-           totalSteps = 0
-           screenView.playerTurnLabel.text = "\(screenView.currentPlayer.rawValue)'s turn"
-            screenView.lockButton()
-       }
+    
+    func switchTurn() {
+        if screenView.currentPlayer == .player1 {
+            screenView.currentPlayer = .player2
+        }
+        else if screenView.currentPlayer == .player2 {
+            screenView.currentPlayer = .player1
+        }
+        totalSteps = 0
+        screenView.playerTurnLabel.text = "\(screenView.currentPlayer.rawValue)'s turn"
+        screenView.lockButton()
+    }
     
 }

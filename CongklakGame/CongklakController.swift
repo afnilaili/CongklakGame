@@ -31,7 +31,6 @@ class CongklakController: ViewController<CongklakView> {
         if screenView.holes[index] == 0 {
             screenView.playerTurnLabel.text = "IT'S EMPTY. CHOOSE ANOTHER HOLE"
             unlockButton()
-            
         }
     }
     
@@ -43,11 +42,12 @@ class CongklakController: ViewController<CongklakView> {
         screenView.holes[index] = 0
         screenView.buttons[index].setTitle("\(screenView.holes[index])", for: .normal)
         index += 1
-        screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
         
         timer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: true, block: { [self] timer in
             if shellsInHand > 0 {
                 totalSteps += 1
+                
+                screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
                 
                 // SKIP NGACANG HOLE
                 index = skipNgacang(index: index)
@@ -64,6 +64,7 @@ class CongklakController: ViewController<CongklakView> {
                 if index == 7 && screenView.currentPlayer != .player1 {
                     index += 1
                 }
+                
                 //UPDATE UI
                 updateUI(index: index)
                 
@@ -75,8 +76,9 @@ class CongklakController: ViewController<CongklakView> {
                 else {
                     screenView.holes[index] += 1
                     shellsInHand -= 1
-                    screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
+                    //screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
                 }
+                
                 updateNumberOfSheelds(index: index)
                 print(screenView.holes)
                 previousIndex = index
