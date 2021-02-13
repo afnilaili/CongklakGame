@@ -46,7 +46,6 @@ extension CongklakController {
             else {
                 screenView.playerTurnLabel.text = "Game is End, Ngacang's Hole is More Than 3"
             }
-           
         }
     }
     
@@ -91,6 +90,34 @@ extension CongklakController {
                     screenView.holes[i] = a
                 }
             }
+            ngacangs.insert(i, at: 0)
+            updateUINgacang(index: i)
+            
         }
     }
+    
+    func skipNgacang(index: Int) -> Int {
+        var index: Int = index
+        if screenView.currentPlayer == ngacangPlayer {
+            if isNgacang {
+                for i in ngacangs {
+                    if screenView.currentPlayer == .player2 && index == 16 {
+                        index =  0
+                    }
+                    if index == i {
+                        index += 1
+                    }
+                }
+            }
+        }
+        return index
+    }
+    
+    func updateUINgacang(index: Int) {
+        screenView.buttons[index].backgroundColor = .yellow
+        screenView.buttons[index].setTitleColor(.black, for: .normal)
+        isNgacang = true
+        ngacangPlayer = screenView.currentPlayer
+    }
+    
 }

@@ -14,44 +14,15 @@ class CongklakController: ViewController<CongklakView> {
     var previousIndex: Int!
     var totalSteps = 0
     var gotTheWinner = false
+    var isNgacang = false
+    var ngacangs: [Int] = []
+    var ngacangPlayer: Player!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        unlockButton()
         screenView.holeTapped = { [weak self] index in
             self?.startPlaying(pickedHole: index)
-        }
-    }
-    
-    func determineTheWinner() {
-        // FIRST ROUND - IF PLAYER 1 RUNS OUT OF SHEELD ON HIS SIDE OF THE BOARD
-        if screenView.holes[0] == 0, screenView.holes[1] == 0, screenView.holes[2] == 0, screenView.holes[3] == 0, screenView.holes[4] == 0, screenView.holes[5] == 0, screenView.holes[6] == 0 {
-            screenView.playerTurnLabel.text = "PLAYER 2 WIN 🎉"
-            screenView.currentPlayer = .player2
-            gotTheWinner = true
-            // SECOND ROUND
-            for i in 8...14 {
-                // MENGOSONGI SEMUA HOLE, SHEELDS DITARIK KE STORE HOUSE SEMUA
-                screenView.holes[15] += screenView.holes[i]
-                screenView.holes[i] = 0
-            }
-            // CEK APAKAH PLAYER 2 KELEBIHAN BIJI
-            isAnyLeftoverShellds(storeHouse: 15, smallestIndex: 8)
-            
-            print(screenView.holes)
-        }
-        
-        // FIRST ROUND - IF PLAYER 2 RUNS OUT OF SHEELD ON HIS SIDE OF THE BOARD
-        else if screenView.holes[8] == 0, screenView.holes[9] == 0, screenView.holes[10] == 0, screenView.holes[11] == 0, screenView.holes[12] == 0, screenView.holes[13] == 0, screenView.holes[14] == 0 {
-            screenView.playerTurnLabel.text = "PLAYER 1 WIN 🎉"
-            screenView.currentPlayer = .player1
-            gotTheWinner = true
-            // SECOND ROUND
-            for i in 0...6 {
-                screenView.holes[7] += screenView.holes[i]
-                screenView.holes[i] = 0
-            }
-            // CEK APAKAH PLAYER 1 KELEBIHAN BIJI
-            isAnyLeftoverShellds(storeHouse: 7, smallestIndex: 0)
         }
     }
     
@@ -59,7 +30,8 @@ class CongklakController: ViewController<CongklakView> {
     func isEmptyHole(index: Int) {
         if screenView.holes[index] == 0 {
             screenView.playerTurnLabel.text = "IT'S EMPTY. CHOOSE ANOTHER HOLE"
-            screenView.unlockButton()
+            unlockButton()
+            
         }
     }
     
@@ -71,10 +43,14 @@ class CongklakController: ViewController<CongklakView> {
         screenView.holes[index] = 0
         screenView.buttons[index].setTitle("\(screenView.holes[index])", for: .normal)
         index += 1
+        screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
         
         timer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: true, block: { [self] timer in
             if shellsInHand > 0 {
                 totalSteps += 1
+                
+                // SKIP NGACANG HOLE
+                index = skipNgacang(index: index)
                 
                 // CHECK IF THE HOLE IS THE LAST ELEMENT OF ARRAY
                 if index > screenView.holes.count-1 {
@@ -99,12 +75,8 @@ class CongklakController: ViewController<CongklakView> {
                 else {
                     screenView.holes[index] += 1
                     shellsInHand -= 1
+                    screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
                 }
-                
-                screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
-//                if gotTheWinner {
-//                    determineTheWinner()
-//                }
                 updateNumberOfSheelds(index: index)
                 print(screenView.holes)
                 previousIndex = index
@@ -114,40 +86,6 @@ class CongklakController: ViewController<CongklakView> {
                 timer.invalidate()
             }
         })
-    }
-    
-    func isLastSheeld(index: Int) {
-        //CEK APAKAH DI STOREHOUSE MILIK SENDIRI
-        if (index == 7 && screenView.currentPlayer == .player1) || (index == 15 && screenView.currentPlayer == .player2){
-            screenView.holes[index] += 1
-            shellsInHand -= 1
-            totalSteps = 0 // CURRENT PLAYER GET ANOTHER TURN
-            screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
-            determineTheWinner()
-            updateNumberOfSheelds(index: index)
-            screenView.unlockButton()
-            timer?.invalidate()
-        }
-
-        // KETIKA BUKAN DI STOREHOUSE
-        if index != 7 && index != 15 {
-            // CEK APAKAH ADA SHEELDS DI CURRENTHOLE
-            if screenView.holes[index] != 0 {
-                shellsInHand = screenView.holes[index]+1
-                screenView.holes[index] = 0
-            }
-            else {
-                screenView.holes[index] += 1
-                tembak(index: index)
-                print(screenView.holes)
-                DispatchQueue.main.asyncAfter(deadline: .now()+0.6){
-                    self.switchTurn()
-                    self.screenView.unlockButton()
-                }
-                determineTheWinner()
-                timer?.invalidate()
-            }
-        }
     }
     
     func updateUI(index: Int) {
@@ -164,6 +102,8 @@ class CongklakController: ViewController<CongklakView> {
                 screenView.buttons[i].alpha = 1
                 DispatchQueue.main.asyncAfter(deadline: .now()+1) {
                     self.screenView.buttons[i].alpha = 0.3
+                    self.unlockButton()
+                    self.screenView.playerTurnLabel.text = "\(self.screenView.currentPlayer.rawValue)'s turn"
                 }
             }
             gotTheWinner = false
@@ -178,42 +118,29 @@ class CongklakController: ViewController<CongklakView> {
         }
     }
     
-    func tembak(index: Int) {
-        if totalSteps >= 15 { // UNTUK CEK SUDAH SATU PUTARAN/BLM
-            let oppositeIndex = 14 - index
-            if screenView.holes[oppositeIndex] != 0 {
-                if screenView.currentPlayer == .player1 {
-                    screenView.holes[7] += screenView.holes[oppositeIndex]+1
-                    screenView.holes[index] = 0
-                    screenView.holes[oppositeIndex] = 0
-                    
-                    screenView.buttons[oppositeIndex].alpha = 1
-                    screenView.buttons[7].alpha = 1
-                }
-                else {
-                    screenView.holes[15] += screenView.holes[oppositeIndex]+1
-                    screenView.holes[index] = 0
-                    screenView.holes[oppositeIndex] = 0
-                    
-                    screenView.buttons[oppositeIndex].alpha = 1
-                    screenView.buttons[15].alpha = 1
-                }
-            }
-            updateNumberOfSheelds(index: index)
-            screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
-        }
-    }
-    
-    func switchTurn() {
+    func unlockButton() {
         if screenView.currentPlayer == .player1 {
-            screenView.currentPlayer = .player2
+            for i in 0...7 {
+                if i<7 {
+                    screenView.buttons[i].isEnabled = true
+                }
+                screenView.buttons[i].alpha = 1
+            }
         }
-        else if screenView.currentPlayer == .player2{
-            screenView.currentPlayer = .player1
+        else {
+            for i in 8...15 {
+                if i<15 {
+                    screenView.buttons[i].isEnabled = true
+                }
+                screenView.buttons[i].alpha = 1
+            }
         }
-        totalSteps = 0
-        screenView.playerTurnLabel.text = "\(screenView.currentPlayer.rawValue)'s turn"
-        screenView.lockButton()
+        
+        if isNgacang {
+            for i in ngacangs {
+                screenView.buttons[i].isEnabled = false
+            }
+        }
     }
     
 }

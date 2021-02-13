@@ -18,7 +18,8 @@ class CongklakView: View {
     let deviceHeight = UIScreen.main.bounds.height
     var holeTapped: ((Int) -> Void)?
 //    var holes = Array(repeating: 7, count: 16) //Fill holes
-    var holes = [0,0,0,0,0,0,1,41,7,7,7,7,7,7,6,8]
+//    var holes = [0,0,0,0,0,0,1,41,7,7,7,7,7,7,6,8] // ngacang 0,1
+    var holes = [7,7,7,7,7,7,6,8,0,0,0,0,0,0,1,41] // ngacang 8,9
     var currentPlayer: Player!
     var buttons: [UIButton] = []
     var labels: [UILabel] = []
@@ -36,15 +37,11 @@ class CongklakView: View {
     }()
     
     override func setViews() {
-        currentPlayer = .player1
+        currentPlayer = .player2
         //fillHoles()
         generateHoles()
         addSubview(playerTurnLabel)
         backgroundColor = .black
-    }
-    
-    override func onViewDidLoad() {
-        unlockButton()
     }
     
     func fillHoles() {
@@ -121,25 +118,6 @@ class CongklakView: View {
         for button in buttons {
             button.isEnabled = false
             button.alpha = 0.3
-        }
-    }
-    
-    func unlockButton() {
-        if currentPlayer == .player1 {
-            for i in 0...7 {
-                if i<7 {
-                    buttons[i].isEnabled = true
-                }
-                buttons[i].alpha = 1
-            }
-        }
-        else {
-            for i in 8...15 {
-                if i<15 {
-                    buttons[i].isEnabled = true
-                }
-                buttons[i].alpha = 1
-            }
         }
     }
     

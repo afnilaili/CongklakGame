@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		72B21CE925D7D4880063F28E /* SecondRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B21CE825D7D4880063F28E /* SecondRound.swift */; };
+		72B21CF425D834910063F28E /* FirstRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B21CF325D834910063F28E /* FirstRound.swift */; };
+		72B21CFF25D836C20063F28E /* Winner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B21CFE25D836C20063F28E /* Winner.swift */; };
 		72FF937425D631600025716F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF937325D631600025716F /* AppDelegate.swift */; };
 		72FF937625D631600025716F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF937525D631600025716F /* SceneDelegate.swift */; };
 		72FF937D25D631620025716F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72FF937C25D631620025716F /* Assets.xcassets */; };
@@ -39,6 +41,8 @@
 
 /* Begin PBXFileReference section */
 		72B21CE825D7D4880063F28E /* SecondRound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondRound.swift; sourceTree = "<group>"; };
+		72B21CF325D834910063F28E /* FirstRound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRound.swift; sourceTree = "<group>"; };
+		72B21CFE25D836C20063F28E /* Winner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Winner.swift; sourceTree = "<group>"; };
 		72FF937025D631600025716F /* CongklakGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CongklakGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72FF937325D631600025716F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72FF937525D631600025716F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,7 +114,9 @@
 				72FF93A625D634540025716F /* Base */,
 				72FF93B725D638990025716F /* CongklakView.swift */,
 				72FF93BF25D63CE90025716F /* CongklakController.swift */,
+				72B21CF325D834910063F28E /* FirstRound.swift */,
 				72B21CE825D7D4880063F28E /* SecondRound.swift */,
+				72B21CFE25D836C20063F28E /* Winner.swift */,
 				72FF937C25D631620025716F /* Assets.xcassets */,
 				72FF937E25D631620025716F /* LaunchScreen.storyboard */,
 				72FF938125D631620025716F /* Info.plist */,
@@ -277,9 +283,11 @@
 				72FF93B825D638990025716F /* CongklakView.swift in Sources */,
 				72FF93C025D63CE90025716F /* CongklakController.swift in Sources */,
 				72FF93B025D635A00025716F /* ViewController.swift in Sources */,
+				72B21CF425D834910063F28E /* FirstRound.swift in Sources */,
 				72FF93A825D634640025716F /* View.swift in Sources */,
 				72FF937425D631600025716F /* AppDelegate.swift in Sources */,
 				72B21CE925D7D4880063F28E /* SecondRound.swift in Sources */,
+				72B21CFF25D836C20063F28E /* Winner.swift in Sources */,
 				72FF937625D631600025716F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
