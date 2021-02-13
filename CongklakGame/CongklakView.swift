@@ -17,7 +17,8 @@ class CongklakView: View {
     let deviceWidth = UIScreen.main.bounds.width
     let deviceHeight = UIScreen.main.bounds.height
     var holeTapped: ((Int) -> Void)?
-    var holes = Array(repeating: 7, count: 16) //Fill holes
+//    var holes = Array(repeating: 7, count: 16) //Fill holes
+    var holes = [0,0,0,0,0,0,1,41,7,7,7,7,7,7,6,8]
     var currentPlayer: Player!
     var buttons: [UIButton] = []
     var labels: [UILabel] = []
@@ -36,7 +37,7 @@ class CongklakView: View {
     
     override func setViews() {
         currentPlayer = .player1
-        fillHoles()
+        //fillHoles()
         generateHoles()
         addSubview(playerTurnLabel)
         backgroundColor = .black

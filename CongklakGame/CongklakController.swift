@@ -13,11 +13,45 @@ class CongklakController: ViewController<CongklakView> {
     var timer: Timer?
     var previousIndex: Int!
     var totalSteps = 0
+    var gotTheWinner = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         screenView.holeTapped = { [weak self] index in
             self?.startPlaying(pickedHole: index)
+        }
+    }
+    
+    func determineTheWinner() {
+        // FIRST ROUND - IF PLAYER 1 RUNS OUT OF SHEELD ON HIS SIDE OF THE BOARD
+        if screenView.holes[0] == 0, screenView.holes[1] == 0, screenView.holes[2] == 0, screenView.holes[3] == 0, screenView.holes[4] == 0, screenView.holes[5] == 0, screenView.holes[6] == 0 {
+            screenView.playerTurnLabel.text = "PLAYER 2 WIN 🎉"
+            screenView.currentPlayer = .player2
+            gotTheWinner = true
+            // SECOND ROUND
+            for i in 8...14 {
+                // MENGOSONGI SEMUA HOLE, SHEELDS DITARIK KE STORE HOUSE SEMUA
+                screenView.holes[15] += screenView.holes[i]
+                screenView.holes[i] = 0
+            }
+            // CEK APAKAH PLAYER 2 KELEBIHAN BIJI
+            isAnyLeftoverShellds(storeHouse: 15, smallestIndex: 8)
+            
+            print(screenView.holes)
+        }
+        
+        // FIRST ROUND - IF PLAYER 2 RUNS OUT OF SHEELD ON HIS SIDE OF THE BOARD
+        else if screenView.holes[8] == 0, screenView.holes[9] == 0, screenView.holes[10] == 0, screenView.holes[11] == 0, screenView.holes[12] == 0, screenView.holes[13] == 0, screenView.holes[14] == 0 {
+            screenView.playerTurnLabel.text = "PLAYER 1 WIN 🎉"
+            screenView.currentPlayer = .player1
+            gotTheWinner = true
+            // SECOND ROUND
+            for i in 0...6 {
+                screenView.holes[7] += screenView.holes[i]
+                screenView.holes[i] = 0
+            }
+            // CEK APAKAH PLAYER 1 KELEBIHAN BIJI
+            isAnyLeftoverShellds(storeHouse: 7, smallestIndex: 0)
         }
     }
     
@@ -67,8 +101,12 @@ class CongklakController: ViewController<CongklakView> {
                     shellsInHand -= 1
                 }
                 
-                updateNumberOfSheelds(index: index)
                 screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
+//                if gotTheWinner {
+//                    determineTheWinner()
+//                }
+                updateNumberOfSheelds(index: index)
+                print(screenView.holes)
                 previousIndex = index
                 index += 1
                 
@@ -84,8 +122,9 @@ class CongklakController: ViewController<CongklakView> {
             screenView.holes[index] += 1
             shellsInHand -= 1
             totalSteps = 0 // CURRENT PLAYER GET ANOTHER TURN
-            updateNumberOfSheelds(index: index)
             screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
+            determineTheWinner()
+            updateNumberOfSheelds(index: index)
             screenView.unlockButton()
             timer?.invalidate()
         }
@@ -105,6 +144,7 @@ class CongklakController: ViewController<CongklakView> {
                     self.switchTurn()
                     self.screenView.unlockButton()
                 }
+                determineTheWinner()
                 timer?.invalidate()
             }
         }
@@ -118,6 +158,16 @@ class CongklakController: ViewController<CongklakView> {
     }
     
     func updateNumberOfSheelds(index: Int) {
+        if gotTheWinner {
+            for i in 0...15 {
+                screenView.buttons[i].setTitle("\(screenView.holes[i])", for: .normal)
+                screenView.buttons[i].alpha = 1
+                DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                    self.screenView.buttons[i].alpha = 0.3
+                }
+            }
+            gotTheWinner = false
+        }
         if shellsInHand == 1, screenView.holes[index] == 0, index != 7 && index != 15 {
             for i in 0...15 {
                 screenView.buttons[i].setTitle("\(screenView.holes[i])", for: .normal)
