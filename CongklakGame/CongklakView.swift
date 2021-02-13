@@ -65,32 +65,34 @@ class CongklakView: View {
             button.backgroundColor = .systemBlue
             button.isEnabled = false
             button.addTarget(self, action: #selector(pickHole), for: .touchUpInside)
-            button.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+            button.frame = CGRect(x: 0, y: 0, width: (50/414)*deviceHeight, height: (50/414)*deviceHeight)
             button.alpha = 0.3
             return button
         }()
         
         let player1Y = deviceHeight/2 + 90
-        let player1X = deviceWidth/2 - 300
+        let player1X = deviceWidth/2 - (300/896)*deviceWidth
         
         let player2Y = deviceHeight/2 - 90
-        let player2X = deviceWidth/2 - 300
+        let player2X = deviceWidth/2 - (300/896)*deviceWidth
+        
+        let space = (75/896)*deviceWidth
         
         if tag == 7 {
-            holeButton.frame = CGRect(x: 0, y: 0, width: 50, height: 100)
+            holeButton.frame = CGRect(x: 0, y: 0, width: (50/414)*deviceHeight, height: (100/414)*deviceHeight)
             holeButton.center = CGPoint(x: player1X, y: deviceHeight/2)
         }
         else if tag == 15 {
-            holeButton.frame = CGRect(x: 0, y: 0, width: 50, height: 100)
+            holeButton.frame = CGRect(x: 0, y: 0, width: (50/414)*deviceHeight, height: (100/414)*deviceHeight)
             holeButton.backgroundColor = .systemRed
-            holeButton.center = CGPoint(x: player2X + 600, y: deviceHeight/2)
+            holeButton.center = CGPoint(x: player2X + (600/896)*deviceWidth, y: deviceHeight/2)
         }
         if tag < 7 {
-            holeButton.center = CGPoint(x: (CGFloat((7-tag)*75) + player1X), y: player1Y)
+            holeButton.center = CGPoint(x: (CGFloat(7-tag)*space + player1X), y: player1Y)
         }
         else if tag > 7, tag < 15 {
             holeButton.backgroundColor = .systemRed
-            holeButton.center = CGPoint(x: player2X + CGFloat(75*(tag-7)), y: player2Y)
+            holeButton.center = CGPoint(x: player2X + CGFloat(tag-7)*space, y: player2Y)
         }
         
         setButtonColor(tag: tag, button: holeButton)

@@ -21,15 +21,18 @@ class CongklakController: ViewController<CongklakView> {
         }
     }
     
-    func startPlaying(pickedHole: Int) {
-        var index = pickedHole
-        
-        // UNTUK CEK HOLE YANG DIPILIH ADA ISINYA/TIDAK KOSONG
+    // UNTUK CEK HOLE YANG DIPILIH APAKAH ADA ISINYA(TIDAK KOSONG)
+    func isEmptyHole(index: Int) {
         if screenView.holes[index] == 0 {
             screenView.playerTurnLabel.text = "IT'S EMPTY. CHOOSE ANOTHER HOLE"
             screenView.unlockButton()
         }
+    }
+    
+    func startPlaying(pickedHole: Int) {
+        var index = pickedHole
         
+        isEmptyHole(index: index)
         shellsInHand = screenView.holes[index]
         screenView.holes[index] = 0
         screenView.buttons[index].setTitle("\(screenView.holes[index])", for: .normal)
