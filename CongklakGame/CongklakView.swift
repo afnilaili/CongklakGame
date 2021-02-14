@@ -13,12 +13,18 @@ enum Player: String {
 }
 
 class CongklakView: View {
+	
+	enum ViewEvent {
+		case holeTapped(index: Int)
+		case decideTapped
+		case restartTapped
+	}
+	
+	var onViewEvent: ((ViewEvent) -> Void)?
     
     let deviceWidth = UIScreen.main.bounds.width
     let deviceHeight = UIScreen.main.bounds.height
-    var holeTapped: ((Int) -> Void)?
-    var decideTurnTapped: (() -> Void)?
-    var restartTapped: (() -> Void)?
+	
     var holes: [Int] = [] //Fill holes
     //var holes = [0,0,0,0,0,0,1,41,7,7,7,7,7,7,6,8] // ngacang 0,1
 //    var holes = [7,7,7,7,7,7,6,8,0,0,0,0,0,0,1,41] // ngacang 8,9
@@ -153,16 +159,16 @@ class CongklakView: View {
     @objc func decideTurn() {
         restartButton.alpha = 1
         restartButton.isEnabled = true
-        decideTurnTapped?()
+		onViewEvent?(.decideTapped)
     }
     
     @objc func pickHole(sender: UIButton) {
         lockButton()
-        holeTapped?(sender.tag)
+		onViewEvent?(.holeTapped(index: sender.tag))
     }
     
     @objc func restart() {
-        restartTapped?()
+		onViewEvent?(.restartTapped)
     }
     
 }

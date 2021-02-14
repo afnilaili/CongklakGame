@@ -22,21 +22,24 @@ class CongklakController: ViewController<CongklakView> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Decide Turn
-        screenView.decideTurnTapped = { [weak self] in
-			self?.pickPlayer()
-			self?.screenView.decideTurnButton.alpha = 0.3
-        }
-        //Start Playing
-        screenView.holeTapped = { [weak self] index in
-            self?.startPlaying(pickedHole: index)
-        }
-        //Restart Game
-        screenView.restartTapped = { [weak self] in
-            self?.restart()
-        }
-        
+        configureViewEvent()
     }
+	
+	// MARK: - Configuration
+	
+	func configureViewEvent() {
+		screenView.onViewEvent = { [weak self] (viewEvent: CongklakView.ViewEvent) in
+			switch viewEvent {
+			case .holeTapped(let index):
+				self?.startPlaying(pickedHole: index)
+			case .decideTapped:
+				self?.pickPlayer()
+				self?.screenView.decideTurnButton.alpha = 0.3
+			case .restartTapped:
+				self?.restart()
+			}
+		}
+	}
     
     //MARK: - Choose Player
     
@@ -179,7 +182,7 @@ class CongklakController: ViewController<CongklakView> {
         
         //MARK: Aktifkan Decide Button
         screenView.decideTurnButton.alpha = 1
-        screenView.decideTurnTapped?()
+//		screenView.onViewEvent?(.decideTapped)
         
         //MARK: Update Shells And Holes
         screenView.fillHoles()
