@@ -21,13 +21,9 @@ class CongklakView: View {
 	}
 	
 	var onViewEvent: ((ViewEvent) -> Void)?
-    
+    var holes: [Int] = [] //Fill holes
     let deviceWidth = UIScreen.main.bounds.width
     let deviceHeight = UIScreen.main.bounds.height
-	
-    var holes: [Int] = [] //Fill holes
-    //var holes = [0,0,0,0,0,0,1,41,7,7,7,7,7,7,6,8] // ngacang 0,1
-//    var holes = [7,7,7,7,7,7,6,8,0,0,0,0,0,0,1,41] // ngacang 8,9
     var currentPlayer: Player!
     var buttons: [UIButton] = []
     var labels: [UILabel] = []
@@ -48,7 +44,7 @@ class CongklakView: View {
         let button = UIButton()
         button.layer.cornerRadius = 8
         button.backgroundColor = .systemYellow
-        button.setTitle("Decide", for: .normal)
+        button.setTitle("Toss-up", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(decideTurn), for: .touchUpInside)
 		button.frame = CGRect(x: 0, y: 0, width: (100.0).proportionalToHeight(), height: (40.0).proportionalToHeight())

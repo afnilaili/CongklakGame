@@ -21,16 +21,12 @@ extension CongklakController {
         // CEK IF PLAYER MENANG BIJI
         if holes[storeHouse] > 49 {
             leftover = holes[storeHouse] - 49
-            //holes = [0,0,0,0,0,14,0,0,7,7,7,7,7,7,7,0] // NGETES NGACANG BISA DITEMBAK/TIDAK
-            //holes = [0,0,0,0,0,3,0,0,7,7,7,7,7,7,7,0] // NGETES NGACANG BISA DIAMBIL/TIDAK
-            
             // PLAYER'S SIDE - RECOUNTS THE SHELLS INTO EACH HOLE
             for i in smallestIndex..<storeHouse {
                 holes[i] = 7
                 holes[storeHouse] = leftover
                 print(holes)
             }
-            
             // OPPONENT'S SIDE - RECOUNTS THE SHELLS INTO EACH HOLE
             numberOfOpponentShells = 49 - leftover
             ngacang = 7 - numberOfOpponentShells/7
