@@ -45,7 +45,7 @@ class CongklakView: View {
         button.setTitle("Decide", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(decideTurn), for: .touchUpInside)
-        button.frame = CGRect(x: 0, y: 0, width: (100/414)*deviceHeight, height: (40/414)*deviceHeight)
+		button.frame = CGRect(x: 0, y: 0, width: (100.0).proportionalToHeight(), height: (40.0).proportionalToHeight())
         return button
     }()
     
@@ -57,7 +57,7 @@ class CongklakView: View {
         button.setTitle("Restart", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(restart), for: .touchUpInside)
-        button.frame = CGRect(x: 0, y: 0, width: (100/414)*deviceHeight, height: (40/414)*deviceHeight)
+		button.frame = CGRect(x: 0, y: 0, width: (100.0).proportionalToHeight(), height: (40.0).proportionalToHeight())
         return button
     }()
     
@@ -68,9 +68,9 @@ class CongklakView: View {
         addSubview(decideTurnButton)
         addSubview(restartButton)
         backgroundColor = .black
-        decideTurnButton.center = CGPoint(x: deviceWidth-((125/896)*deviceWidth), y: deviceHeight-(55/414)*deviceHeight)
+		decideTurnButton.center = CGPoint(x: deviceWidth-((125.0).proportionalToWidth()), y: deviceHeight-(55.0).proportionalToHeight())
         
-        restartButton.center = CGPoint(x: (125/896)*deviceWidth, y: deviceHeight-(55/414)*deviceHeight)
+		restartButton.center = CGPoint(x: (125.0).proportionalToWidth(), y: deviceHeight-(55.0).proportionalToHeight())
     }
     
     override func onViewDidLoad() {
@@ -102,27 +102,27 @@ class CongklakView: View {
             button.backgroundColor = .systemBlue
             button.isEnabled = false
             button.addTarget(self, action: #selector(pickHole), for: .touchUpInside)
-            button.frame = CGRect(x: 0, y: 0, width: (50/414)*deviceHeight, height: (50/414)*deviceHeight)
+			button.frame = CGRect(x: 0, y: 0, width: (50.0).proportionalToHeight(), height: (50.0).proportionalToHeight())
             button.alpha = 0.3
             return button
         }()
         
         let player1Y = deviceHeight/2 + 90
-        let player1X = deviceWidth/2 - (300/896)*deviceWidth
+		let player1X = deviceWidth/2 - (300.0).proportionalToWidth()
         
         let player2Y = deviceHeight/2 - 90
-        let player2X = deviceWidth/2 - (300/896)*deviceWidth
+		let player2X = deviceWidth/2 - (300.0).proportionalToWidth()
         
-        let space = (75/896)*deviceWidth
+		let space = (75.0).proportionalToWidth()
         
         if tag == 7 {
-            holeButton.frame = CGRect(x: 0, y: 0, width: (50/414)*deviceHeight, height: (100/414)*deviceHeight)
+			holeButton.frame = CGRect(x: 0, y: 0, width: (50.0).proportionalToHeight(), height: (100.0).proportionalToHeight())
             holeButton.center = CGPoint(x: player1X, y: deviceHeight/2)
         }
         else if tag == 15 {
-            holeButton.frame = CGRect(x: 0, y: 0, width: (50/414)*deviceHeight, height: (100/414)*deviceHeight)
+			holeButton.frame = CGRect(x: 0, y: 0, width: (50.0).proportionalToHeight(), height: (100.0).proportionalToHeight())
             holeButton.backgroundColor = .systemRed
-            holeButton.center = CGPoint(x: player2X + (600/896)*deviceWidth, y: deviceHeight/2)
+			holeButton.center = CGPoint(x: player2X + (600.0).proportionalToWidth(), y: deviceHeight/2)
         }
         if tag < 7 {
             holeButton.center = CGPoint(x: (CGFloat(7-tag)*space + player1X), y: player1Y)
