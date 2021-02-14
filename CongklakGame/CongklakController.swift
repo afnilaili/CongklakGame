@@ -17,10 +17,17 @@ class CongklakController: ViewController<CongklakView> {
     var isNgacang = false
     var ngacangs: [Int] = []
     var ngacangPlayer: Player!
+	
+	var holes: [Int] = [] {
+		didSet {
+			screenView.holes = holes
+		}
+	}
     
     //MARK: - Life Cycle
     
     override func viewDidLoad() {
+		fillHoles()
         super.viewDidLoad()
         configureViewEvent()
     }
@@ -39,6 +46,14 @@ class CongklakController: ViewController<CongklakView> {
 				self?.restart()
 			}
 		}
+	}
+	
+	//MARK: - Fill Hole
+	
+	func fillHoles() {
+		holes = Array(repeating: 7, count: 16)
+		holes[7] = 0
+		holes[15] = 0
 	}
     
     //MARK: - Choose Player
@@ -60,9 +75,9 @@ class CongklakController: ViewController<CongklakView> {
         var index = pickedHole
         
         isEmptyHole(index: index)
-        shellsInHand = screenView.holes[index]
-        screenView.holes[index] = 0
-        screenView.buttons[index].setTitle("\(screenView.holes[index])", for: .normal)
+        shellsInHand = holes[index]
+        holes[index] = 0
+        screenView.buttons[index].setTitle("\(holes[index])", for: .normal)
         index += 1
         
         timer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: true, block: { [self] timer in
@@ -75,7 +90,7 @@ class CongklakController: ViewController<CongklakView> {
                 index = skipNgacang(index: index)
                 
                 // CHECK IF THE HOLE IS THE LAST ELEMENT OF ARRAY (menghindari index out of range)
-                if index > screenView.holes.count-1 {
+                if index > holes.count-1 {
                     index = 0
                 }
                 // SKIP STORE HOUSE LAWAN
@@ -90,12 +105,12 @@ class CongklakController: ViewController<CongklakView> {
                 }
                 // SHELLS MASIH ADA > 1
                 else {
-                    screenView.holes[index] += 1
+                    holes[index] += 1
                     shellsInHand -= 1
                 }
                 
                 updateNumberOfShells(index: index)
-                print(screenView.holes)
+                print(holes)
                 previousIndex = index
                 index += 1
                 
@@ -109,7 +124,7 @@ class CongklakController: ViewController<CongklakView> {
     
     // UNTUK CEK HOLE YANG DIPILIH APAKAH ADA ISINYA(TIDAK KOSONG)
     func isEmptyHole(index: Int) {
-        if screenView.holes[index] == 0 {
+        if holes[index] == 0 {
             screenView.playerTurnLabel.text = "IT'S EMPTY. CHOOSE ANOTHER HOLE"
             unlockButton()
         }
@@ -125,7 +140,7 @@ class CongklakController: ViewController<CongklakView> {
     func updateNumberOfShells(index: Int) {
         if gotTheWinner {
             for i in 0...15 {
-                screenView.buttons[i].setTitle("\(screenView.holes[i])", for: .normal)
+                screenView.buttons[i].setTitle("\(holes[i])", for: .normal)
                 screenView.buttons[i].alpha = 1
                 DispatchQueue.main.asyncAfter(deadline: .now()+1) {
                     self.screenView.buttons[i].alpha = 0.3
@@ -135,13 +150,13 @@ class CongklakController: ViewController<CongklakView> {
             }
             gotTheWinner = false
         }
-        if shellsInHand == 0, screenView.holes[index] == 0, index != 7 && index != 15 {
+        if shellsInHand == 0, holes[index] == 0, index != 7 && index != 15 {
             for i in 0...15 {
-                screenView.buttons[i].setTitle("\(screenView.holes[i])", for: .normal)
+                screenView.buttons[i].setTitle("\(holes[i])", for: .normal)
             }
         }
         else {
-            screenView.buttons[index].setTitle("\(screenView.holes[index])", for: .normal)
+            screenView.buttons[index].setTitle("\(holes[index])", for: .normal)
         }
     }
     
@@ -185,11 +200,11 @@ class CongklakController: ViewController<CongklakView> {
 //		screenView.onViewEvent?(.decideTapped)
         
         //MARK: Update Shells And Holes
-        screenView.fillHoles()
+        fillHoles()
         for i in 0...15 {
             screenView.buttons[i].isEnabled = false
             screenView.buttons[i].alpha = 0.3
-            screenView.buttons[i].setTitle("\(screenView.holes[i])", for: .normal)
+            screenView.buttons[i].setTitle("\(holes[i])", for: .normal)
         }
         
         //MARK: Update Text Label

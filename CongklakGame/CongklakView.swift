@@ -80,16 +80,7 @@ class CongklakView: View {
     }
     
     override func onViewDidLoad() {
-        fillHoles()
         generateHoles()
-    }
-    
-    //MARK: - Fill Hole
-    
-    func fillHoles() {
-        holes = Array(repeating: 7, count: 16)
-        holes[7] = 0
-        holes[15] = 0
     }
     
     //MARK: - Create Button

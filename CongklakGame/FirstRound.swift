@@ -34,7 +34,7 @@ extension CongklakController {
     func isLastSheeld(index: Int) {
             //CEK APAKAH DI STOREHOUSE MILIK SENDIRI
             if (index == 7 && screenView.currentPlayer == .player1) || (index == 15 && screenView.currentPlayer == .player2){
-                screenView.holes[index] += 1
+                holes[index] += 1
                 shellsInHand -= 1
                 totalSteps = 0 // CURRENT PLAYER GET ANOTHER TURN - RESTART TOTAL STEPS
                 screenView.playerTurnLabel.text = "Shells in hands : \(shellsInHand)"
@@ -50,18 +50,18 @@ extension CongklakController {
             // KETIKA BUKAN DI STOREHOUSE
             if index != 7 && index != 15 {
                 // CEK APAKAH ADA SHELLS DI CURRENTHOLE
-                if screenView.holes[index] != 0 {
+                if holes[index] != 0 {
                     // CEK APAKAH ADA NGACANG HOLES
                     if isNgacang {
                         // BUKAN DI NGACANG HOLES
                         if !ngacangs.contains(index) {
-                            shellsInHand = screenView.holes[index]+1
-                            screenView.holes[index] = 0
+                            shellsInHand = holes[index]+1
+                            holes[index] = 0
                         }
                         // CAN'T TAKE SHELLS FROM NGACANG HOLE
                         else {
                             shellsInHand -= 1
-                            screenView.holes[index] += 1
+                            holes[index] += 1
                             DispatchQueue.main.asyncAfter(deadline: .now()+0.6){
                                 self.switchTurn()
                                 self.unlockButton()
@@ -70,16 +70,16 @@ extension CongklakController {
                     }
                     // BELUM ADA NGACANG HOLES
                     else {
-                        shellsInHand = screenView.holes[index]+1
-                        screenView.holes[index] = 0
+                        shellsInHand = holes[index]+1
+                        holes[index] = 0
                     }
                 }
                 // TIDAK ADA SHELLS DI CURRENTHOLE
                 else {
-                    screenView.holes[index] += 1
+                    holes[index] += 1
                     shellsInHand -= 1
                     tembak(index: index)
-                    print(screenView.holes)
+                    print(holes)
                     DispatchQueue.main.asyncAfter(deadline: .now()+0.6){
                         self.switchTurn()
                         self.unlockButton()
@@ -98,13 +98,13 @@ extension CongklakController {
             // JIKA ADA NGACANG HOLES
             if isNgacang {
                 // PASTIKAN CURRENT HOLE BUKAN NGACANG HOLES
-                if !ngacangs.contains(oppositeIndex), screenView.holes[oppositeIndex] != 0 {
+                if !ngacangs.contains(oppositeIndex), holes[oppositeIndex] != 0 {
                     updateAfterTembak(index: index, oppositeIndex: oppositeIndex)
                 }
             }
             // BELUM ADA NGACANG HOLES
             else {
-                if screenView.holes[oppositeIndex] != 0 {
+                if holes[oppositeIndex] != 0 {
                     updateAfterTembak(index: index, oppositeIndex: oppositeIndex)
                 }
             }
@@ -114,17 +114,17 @@ extension CongklakController {
     
     func updateAfterTembak(index: Int, oppositeIndex: Int) {
         if screenView.currentPlayer == .player1 {
-            screenView.holes[7] += screenView.holes[oppositeIndex]+1
-            screenView.holes[index] = 0
-            screenView.holes[oppositeIndex] = 0
+            holes[7] += holes[oppositeIndex]+1
+            holes[index] = 0
+            holes[oppositeIndex] = 0
             
             screenView.buttons[oppositeIndex].alpha = 1
             screenView.buttons[7].alpha = 1
         }
         else {
-            screenView.holes[15] += screenView.holes[oppositeIndex]+1
-            screenView.holes[index] = 0
-            screenView.holes[oppositeIndex] = 0
+            holes[15] += holes[oppositeIndex]+1
+            holes[index] = 0
+            holes[oppositeIndex] = 0
             
             screenView.buttons[oppositeIndex].alpha = 1
             screenView.buttons[15].alpha = 1

@@ -19,16 +19,16 @@ extension CongklakController {
         var remainingShells = 0
         
         // CEK IF PLAYER MENANG BIJI
-        if screenView.holes[storeHouse] > 49 {
-            leftover = screenView.holes[storeHouse] - 49
-            //screenView.holes = [0,0,0,0,0,14,0,0,7,7,7,7,7,7,7,0] // NGETES NGACANG BISA DITEMBAK/TIDAK
-            //screenView.holes = [0,0,0,0,0,3,0,0,7,7,7,7,7,7,7,0] // NGETES NGACANG BISA DIAMBIL/TIDAK
+        if holes[storeHouse] > 49 {
+            leftover = holes[storeHouse] - 49
+            //holes = [0,0,0,0,0,14,0,0,7,7,7,7,7,7,7,0] // NGETES NGACANG BISA DITEMBAK/TIDAK
+            //holes = [0,0,0,0,0,3,0,0,7,7,7,7,7,7,7,0] // NGETES NGACANG BISA DIAMBIL/TIDAK
             
             // PLAYER'S SIDE - RECOUNTS THE SHELLS INTO EACH HOLE
             for i in smallestIndex..<storeHouse {
-                screenView.holes[i] = 7
-                screenView.holes[storeHouse] = leftover
-                print(screenView.holes)
+                holes[i] = 7
+                holes[storeHouse] = leftover
+                print(holes)
             }
             
             // OPPONENT'S SIDE - RECOUNTS THE SHELLS INTO EACH HOLE
@@ -57,8 +57,8 @@ extension CongklakController {
             }
         }
         
-        else if screenView.holes[storeHouse] == 49 {
-            screenView.fillHoles()
+        else if holes[storeHouse] == 49 {
+            fillHoles()
         }
     }
     
@@ -83,23 +83,23 @@ extension CongklakController {
         }
         
         // FILL LOSER'S HOLE
-        screenView.holes[storeHouse] = 0
+        holes[storeHouse] = 0
         
         for i in stride(from: largestIndex, through: lastIndex, by: -1) {
-            screenView.holes[i] = 7
+            holes[i] = 7
         }
         
         for i in stride(from: lastIndex, through: smallestIndex, by: -1) {
             let a = remainingShells/ngacang
             if a * ngacang == remainingShells {
-                screenView.holes[i] = a
+                holes[i] = a
             }
             else {
                 if i == smallestIndex {
-                    screenView.holes[i] = remainingShells - a
+                    holes[i] = remainingShells - a
                 }
                 else {
-                    screenView.holes[i] = a
+                    holes[i] = a
                 }
             }
             ngacangs.insert(i, at: 0)
