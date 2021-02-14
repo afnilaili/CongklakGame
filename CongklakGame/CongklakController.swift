@@ -22,18 +22,25 @@ class CongklakController: ViewController<CongklakView> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //Decide Turn
         screenView.decideTurnTapped = { [weak self] value in
             if value {
                 self?.pickPlayer()
-                UIView.animate(withDuration: 0.3, animations: {self?.screenView.decideTurnButton.alpha = 0}, completion: { value in
-                    self?.screenView.decideTurnButton.isHidden = true
-                })
+                self?.screenView.decideTurnButton.alpha = 0.3
+//                UIView.animate(withDuration: 0.3, animations: {self?.screenView.decideTurnButton.alpha = 0}, completion: { value in
+//                    self?.screenView.decideTurnButton.isHidden = true
+//                })
             }
         }
+        //Start Playing
         screenView.holeTapped = { [weak self] index in
             self?.startPlaying(pickedHole: index)
         }
+        //Restart Game
+        screenView.restartTapped = { [weak self] value in
+            self?.restart()
+        }
+        
     }
     
     //MARK: - Choose Player
@@ -163,6 +170,29 @@ class CongklakController: ViewController<CongklakView> {
                 screenView.buttons[i].isEnabled = false
             }
         }
+    }
+    
+    //MARK: - Restart The Game
+    
+    func restart() {
+//        screenView.restartTapped?(false)
+        screenView.restartButton.alpha = 0.3
+        screenView.restartButton.isEnabled = false
+        
+        //MARK: MUNCULIN LAGI BUTTON DECIDE
+        screenView.decideTurnButton.alpha = 1
+        screenView.decideTurnTapped?(false)
+        
+        screenView.fillHoles()
+        screenView.playerTurnLabel.text = "Decide Who Will Go First"
+        for i in 0...15 {
+            screenView.buttons[i].isEnabled = false
+            screenView.buttons[i].alpha = 0.3
+        }
+        totalSteps = 0
+        gotTheWinner = false
+        isNgacang = false
+        ngacangs = []
     }
     
 }

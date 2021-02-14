@@ -18,6 +18,7 @@ class CongklakView: View {
     let deviceHeight = UIScreen.main.bounds.height
     var holeTapped: ((Int) -> Void)?
     var decideTurnTapped: ((Bool) -> Void)?
+    var restartTapped: ((Bool) -> Void)?
     var holes: [Int] = [] //Fill holes
 //    var holes = [0,0,0,0,0,0,1,41,7,7,7,7,7,7,6,8] // ngacang 0,1
 //    var holes = [7,7,7,7,7,7,6,8,0,0,0,0,0,0,1,41] // ngacang 8,9
@@ -48,13 +49,28 @@ class CongklakView: View {
         return button
     }()
     
+    lazy var restartButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 8
+        button.backgroundColor = .systemYellow
+        button.alpha = 0.3
+        button.setTitle("Restart", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(restart), for: .touchUpInside)
+        button.frame = CGRect(x: 0, y: 0, width: (100/414)*deviceHeight, height: (40/414)*deviceHeight)
+        return button
+    }()
+    
     //MARK: - Life Cycle
     
     override func setViews() {
         addSubview(playerTurnLabel)
         addSubview(decideTurnButton)
+        addSubview(restartButton)
         backgroundColor = .black
         decideTurnButton.center = CGPoint(x: deviceWidth-((125/896)*deviceWidth), y: deviceHeight-(55/414)*deviceHeight)
+        
+        restartButton.center = CGPoint(x: (125/896)*deviceWidth, y: deviceHeight-(55/414)*deviceHeight)
     }
     
     override func onViewDidLoad() {
@@ -135,12 +151,18 @@ class CongklakView: View {
     //MARK: - @objc target
     
     @objc func decideTurn() {
+        restartButton.alpha = 1
+        restartButton.isEnabled = true
         decideTurnTapped?(true)
     }
     
     @objc func pickHole(sender: UIButton) {
         lockButton()
         holeTapped?(sender.tag)
+    }
+    
+    @objc func restart() {
+        restartTapped?(true)
     }
     
 }
