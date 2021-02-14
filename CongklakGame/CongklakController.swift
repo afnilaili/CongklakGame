@@ -66,13 +66,13 @@ class CongklakController: ViewController<CongklakView> {
                 if shellsInHand == 1 {
                     isLastSheeld(index: index)
                 }
-                // SHEELDS MASIH ADA > 1
+                // SHELLS MASIH ADA > 1
                 else {
                     screenView.holes[index] += 1
                     shellsInHand -= 1
                 }
                 
-                updateNumberOfSheelds(index: index)
+                updateNumberOfShells(index: index)
                 print(screenView.holes)
                 previousIndex = index
                 index += 1
@@ -88,9 +88,11 @@ class CongklakController: ViewController<CongklakView> {
             screenView.buttons[previousIndex].alpha = 0.3
         }
         screenView.buttons[index].alpha = 1
+        
+        
     }
     
-    func updateNumberOfSheelds(index: Int) {
+    func updateNumberOfShells(index: Int) {
         if gotTheWinner {
             for i in 0...15 {
                 screenView.buttons[i].setTitle("\(screenView.holes[i])", for: .normal)
@@ -103,7 +105,7 @@ class CongklakController: ViewController<CongklakView> {
             }
             gotTheWinner = false
         }
-        if shellsInHand == 1, screenView.holes[index] == 0, index != 7 && index != 15 {
+        if shellsInHand == 0, screenView.holes[index] == 0, index != 7 && index != 15 {
             for i in 0...15 {
                 screenView.buttons[i].setTitle("\(screenView.holes[i])", for: .normal)
             }

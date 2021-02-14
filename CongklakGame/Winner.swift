@@ -17,7 +17,7 @@ extension CongklakController {
             gotTheWinner = true
             // SECOND ROUND
             for i in 8...14 {
-                // MENGOSONGI SEMUA HOLE, SHEELDS DITARIK KE STORE HOUSE SEMUA
+                // MENGOSONGI SEMUA HOLE, SHELLS DITARIK KE STORE HOUSE SEMUA
                 screenView.holes[15] += screenView.holes[i]
                 screenView.holes[i] = 0
             }
