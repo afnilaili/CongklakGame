@@ -7,11 +7,6 @@
 
 import UIKit
 
-enum Player: String {
-    case player1
-    case player2
-}
-
 class CongklakView: View {
 	
 	enum ViewEvent {

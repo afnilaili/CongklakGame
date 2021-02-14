@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		091960F825D95C5D0067479E /* Double+ProportionalWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091960F725D95C5D0067479E /* Double+ProportionalWidth.swift */; };
 		722633FD25D970DE00CCE6C3 /* CongklakGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722633FC25D970DE00CCE6C3 /* CongklakGame.swift */; };
+		7226340925D98A5400CCE6C3 /* Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7226340825D98A5400CCE6C3 /* Players.swift */; };
 		72B21CE925D7D4880063F28E /* SecondRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B21CE825D7D4880063F28E /* SecondRound.swift */; };
 		72B21CF425D834910063F28E /* FirstRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B21CF325D834910063F28E /* FirstRound.swift */; };
 		72B21CFF25D836C20063F28E /* Winner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B21CFE25D836C20063F28E /* Winner.swift */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		091960F725D95C5D0067479E /* Double+ProportionalWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+ProportionalWidth.swift"; sourceTree = "<group>"; };
 		722633FC25D970DE00CCE6C3 /* CongklakGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakGame.swift; sourceTree = "<group>"; };
+		7226340825D98A5400CCE6C3 /* Players.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Players.swift; sourceTree = "<group>"; };
 		72B21CE825D7D4880063F28E /* SecondRound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondRound.swift; sourceTree = "<group>"; };
 		72B21CF325D834910063F28E /* FirstRound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRound.swift; sourceTree = "<group>"; };
 		72B21CFE25D836C20063F28E /* Winner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Winner.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				72B21CF325D834910063F28E /* FirstRound.swift */,
 				72B21CE825D7D4880063F28E /* SecondRound.swift */,
 				72B21CFE25D836C20063F28E /* Winner.swift */,
+				7226340825D98A5400CCE6C3 /* Players.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7226340925D98A5400CCE6C3 /* Players.swift in Sources */,
 				72FF93B825D638990025716F /* CongklakView.swift in Sources */,
 				72FF93C025D63CE90025716F /* CongklakController.swift in Sources */,
 				72FF93B025D635A00025716F /* ViewController.swift in Sources */,

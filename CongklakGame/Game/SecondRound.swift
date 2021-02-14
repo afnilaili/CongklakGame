@@ -30,7 +30,6 @@ extension CongklakController {
             // OPPONENT'S SIDE - RECOUNTS THE SHELLS INTO EACH HOLE
             numberOfOpponentShells = 49 - leftover
             ngacang = 7 - numberOfOpponentShells/7
-            print(ngacang)
             
             // PASTIKAN NGACANG HOLES TIDAK BOLEH LEBIH DARI 3
             if ngacang <= 3 {
@@ -43,13 +42,20 @@ extension CongklakController {
                 // TIDAK ADA BIJI YANG ADA UNTUK DIBAGI KE NGACANG HOLES
                 else {
                     ngacang += 1
-                    remainingShells = 7
-                    // FILL LOSER'S HOLE
-                    fillLoserHole(leftover: leftover, ngacang: ngacang, numberOfOpponent: numberOfOpponentShells, remainingShells: remainingShells)
+                    if ngacang > 3 {
+                        gameOver()
+                        fillLoserHole(leftover: leftover, ngacang: ngacang, numberOfOpponent: numberOfOpponentShells, remainingShells: remainingShells)
+                    }
+                    else {
+                        remainingShells = 7
+                        // FILL LOSER'S HOLE
+                        fillLoserHole(leftover: leftover, ngacang: ngacang, numberOfOpponent: numberOfOpponentShells, remainingShells: remainingShells)
+                    }
                 }
             }
             else {
-                screenView.playerTurnLabel.text = "Game is End, Ngacang's Hole is More Than 3"
+                gameOver()
+                fillLoserHole(leftover: leftover, ngacang: ngacang, numberOfOpponent: numberOfOpponentShells, remainingShells: remainingShells)
             }
         }
         
@@ -65,13 +71,13 @@ extension CongklakController {
         var storeHouse = Int()
         
         // CEK WHO'S THE WINNER
-        if screenView.currentPlayer == .player1 {
+        if screenView.currentPlayer == .player1_Blue {
             largestIndex = 14
             smallestIndex = 8
             lastIndex = 7+ngacang
             storeHouse = 15
         }
-        else if screenView.currentPlayer == .player2 {
+        else if screenView.currentPlayer == .player2_Red {
             largestIndex = 6
             smallestIndex = 0
             lastIndex = ngacang - 1
@@ -111,7 +117,7 @@ extension CongklakController {
         if screenView.currentPlayer == ngacangPlayer {
             if isNgacang {
                 for i in ngacangs {
-                    if screenView.currentPlayer == .player2 && index == 16 {
+                    if screenView.currentPlayer == .player2_Red && index == 16 {
                         index =  0
                     }
                     if index == i {
@@ -130,5 +136,16 @@ extension CongklakController {
         isNgacang = true
         ngacangPlayer = screenView.currentPlayer
     }
+    
+    //MARK: - NGACANG HOLES > 3
+    
+    func gameOver() {
+        isGameOver = true
+        shellsInHand = 0 // Stop Game
+        screenView.decideTurnButton.setTitle("Continue", for: .normal)
+        screenView.decideTurnButton.alpha = 1
+        screenView.playerTurnLabel.text = "Game Over, \(screenView.currentPlayer.rawValue) Win"
+    }
+
     
 }

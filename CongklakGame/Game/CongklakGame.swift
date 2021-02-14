@@ -19,12 +19,12 @@ extension CongklakController {
     //MARK: - Choose Player
     
     func pickPlayer() {
-        let player1 = Player.player1
-        let player2 = Player.player2
+        let player1 = Player.player1_Blue
+        let player2 = Player.player2_Red
         let players: [Player] = [player1, player1, player2, player1, player2, player2, player1, player2]
         let getPlayer = players.randomElement()!
         
-        self.screenView.playerTurnLabel.text = "\(getPlayer)'s turn"
+        self.screenView.playerTurnLabel.text = "\(getPlayer) turn"
         screenView.currentPlayer = getPlayer
         unlockButton()
     }
@@ -101,15 +101,22 @@ extension CongklakController {
         if gotTheWinner {
             for i in 0...15 {
                 screenView.buttons[i].setTitle("\(holes[i])", for: .normal)
-                screenView.buttons[i].alpha = 1
-                DispatchQueue.main.asyncAfter(deadline: .now()+1) {
-                    self.screenView.buttons[i].alpha = 0.3
-                    self.unlockButton()
-                    self.screenView.playerTurnLabel.text = "\(self.screenView.currentPlayer.rawValue)'s turn"
+                if !isGameOver {
+                    screenView.buttons[i].alpha = 1
+                    DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                        self.screenView.buttons[i].alpha = 0.3
+                        self.unlockButton()
+                        self.screenView.playerTurnLabel.text = "\(self.screenView.currentPlayer.rawValue) turn"
+                    }
+                }
+                else {
+                    screenView.buttons[i].alpha = 1
+                    screenView.decideTurnButton.isEnabled = true
                 }
             }
             gotTheWinner = false
         }
+        
         if shellsInHand == 0, holes[index] == 0, index != 7 && index != 15 {
             for i in 0...15 {
                 screenView.buttons[i].setTitle("\(holes[i])", for: .normal)
@@ -121,7 +128,7 @@ extension CongklakController {
     }
     
     func unlockButton() {
-        if screenView.currentPlayer == .player1 {
+        if screenView.currentPlayer == .player1_Blue {
             for i in 0...7 {
                 if i<7 {
                     screenView.buttons[i].isEnabled = true
@@ -157,13 +164,22 @@ extension CongklakController {
         
         //MARK: Aktifkan Decide Button
         screenView.decideTurnButton.alpha = 1
+        screenView.decideTurnButton.isEnabled = true
+        screenView.decideTurnButton.setTitle("Toss-Up", for: .normal)
         
         //MARK: Update Shells And Holes
         fillHoles()
         for i in 0...15 {
             screenView.buttons[i].isEnabled = false
+            screenView.buttons[i].setTitleColor(.white, for: .normal)
             screenView.buttons[i].alpha = 0.3
             screenView.buttons[i].setTitle("\(holes[i])", for: .normal)
+            if i <= 7 {
+                screenView.buttons[i].backgroundColor = .systemBlue
+            }
+            else {
+                screenView.buttons[i].backgroundColor = .systemRed
+            }
         }
         
         //MARK: Update Text Label
@@ -173,6 +189,7 @@ extension CongklakController {
         totalSteps = 0
         gotTheWinner = false
         isNgacang = false
+        isGameOver = false
         ngacangs = []
         
     }
