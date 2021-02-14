@@ -9,6 +9,9 @@ import UIKit
 
 extension CongklakController {
     
+    //MARK: - RECOUNTS The 7 SHELLS INTO EACH HOLE
+    //MARK: Starting with the hole nearest player own store house
+    
     func isAnyLeftoverShellds(storeHouse: Int, smallestIndex: Int) {
         var leftover = 0
         var ngacang = 0
@@ -59,7 +62,6 @@ extension CongklakController {
         }
     }
     
-    
     func fillLoserHole(leftover: Int, ngacang: Int, numberOfOpponent: Int, remainingShells: Int) {
         var largestIndex = Int()
         var smallestIndex = Int()
@@ -106,6 +108,8 @@ extension CongklakController {
         }
     }
     
+    // MARK: - NGACANG HOLES BECOME PROTECTED FROM OPPONENT
+    
     func skipNgacang(index: Int) -> Int {
         var index: Int = index
         if screenView.currentPlayer == ngacangPlayer {
@@ -123,6 +127,7 @@ extension CongklakController {
         return index
     }
     
+    // NGACANG HOLES BERUBAH WARNA
     func updateUINgacang(index: Int) {
         screenView.buttons[index].backgroundColor = .lightGray
         screenView.buttons[index].setTitleColor(.black, for: .normal)

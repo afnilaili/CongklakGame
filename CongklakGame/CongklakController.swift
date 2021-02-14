@@ -27,9 +27,6 @@ class CongklakController: ViewController<CongklakView> {
             if value {
                 self?.pickPlayer()
                 self?.screenView.decideTurnButton.alpha = 0.3
-//                UIView.animate(withDuration: 0.3, animations: {self?.screenView.decideTurnButton.alpha = 0}, completion: { value in
-//                    self?.screenView.decideTurnButton.isHidden = true
-//                })
             }
         }
         //Start Playing
