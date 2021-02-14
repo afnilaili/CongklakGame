@@ -17,8 +17,8 @@ class CongklakView: View {
     let deviceWidth = UIScreen.main.bounds.width
     let deviceHeight = UIScreen.main.bounds.height
     var holeTapped: ((Int) -> Void)?
-    var decideTurnTapped: ((Bool) -> Void)?
-    var restartTapped: ((Bool) -> Void)?
+    var decideTurnTapped: (() -> Void)?
+    var restartTapped: (() -> Void)?
     var holes: [Int] = [] //Fill holes
     //var holes = [0,0,0,0,0,0,1,41,7,7,7,7,7,7,6,8] // ngacang 0,1
 //    var holes = [7,7,7,7,7,7,6,8,0,0,0,0,0,0,1,41] // ngacang 8,9
@@ -153,7 +153,7 @@ class CongklakView: View {
     @objc func decideTurn() {
         restartButton.alpha = 1
         restartButton.isEnabled = true
-        decideTurnTapped?(true)
+        decideTurnTapped?()
     }
     
     @objc func pickHole(sender: UIButton) {
@@ -162,7 +162,7 @@ class CongklakView: View {
     }
     
     @objc func restart() {
-        restartTapped?(true)
+        restartTapped?()
     }
     
 }
