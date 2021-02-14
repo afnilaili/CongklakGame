@@ -18,21 +18,38 @@ class CongklakController: ViewController<CongklakView> {
     var ngacangs: [Int] = []
     var ngacangPlayer: Player!
     
+    //MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        unlockButton()
+        
+        screenView.decideTurnTapped = { [weak self] value in
+            if value {
+                self?.pickPlayer()
+                UIView.animate(withDuration: 0.3, animations: {self?.screenView.decideTurnButton.alpha = 0}, completion: { value in
+                    self?.screenView.decideTurnButton.isHidden = true
+                })
+            }
+        }
         screenView.holeTapped = { [weak self] index in
             self?.startPlaying(pickedHole: index)
         }
     }
     
-    // UNTUK CEK HOLE YANG DIPILIH APAKAH ADA ISINYA(TIDAK KOSONG)
-    func isEmptyHole(index: Int) {
-        if screenView.holes[index] == 0 {
-            screenView.playerTurnLabel.text = "IT'S EMPTY. CHOOSE ANOTHER HOLE"
-            unlockButton()
-        }
+    //MARK: - Choose Player
+    
+    func pickPlayer() {
+        let player1 = Player.player1
+        let player2 = Player.player2
+        let players: [Player] = [player1, player1, player2, player1, player2, player2, player1, player2]
+        let getPlayer = players.randomElement()!
+        
+        self.screenView.playerTurnLabel.text = "\(getPlayer)'s turn"
+        screenView.currentPlayer = getPlayer
+        unlockButton()
     }
+    
+    //MARK: - Start Playing Logic
     
     func startPlaying(pickedHole: Int) {
         var index = pickedHole
@@ -83,13 +100,21 @@ class CongklakController: ViewController<CongklakView> {
         })
     }
     
+    //MARK: - Start Playing Needed
+    
+    // UNTUK CEK HOLE YANG DIPILIH APAKAH ADA ISINYA(TIDAK KOSONG)
+    func isEmptyHole(index: Int) {
+        if screenView.holes[index] == 0 {
+            screenView.playerTurnLabel.text = "IT'S EMPTY. CHOOSE ANOTHER HOLE"
+            unlockButton()
+        }
+    }
+    
     func holeUIUpdate(index: Int) {
         if previousIndex != nil {
             screenView.buttons[previousIndex].alpha = 0.3
         }
         screenView.buttons[index].alpha = 1
-        
-        
     }
     
     func updateNumberOfShells(index: Int) {

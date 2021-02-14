@@ -17,6 +17,7 @@ class CongklakView: View {
     let deviceWidth = UIScreen.main.bounds.width
     let deviceHeight = UIScreen.main.bounds.height
     var holeTapped: ((Int) -> Void)?
+    var decideTurnTapped: ((Bool) -> Void)?
     var holes: [Int] = [] //Fill holes
 //    var holes = [0,0,0,0,0,0,1,41,7,7,7,7,7,7,6,8] // ngacang 0,1
 //    var holes = [7,7,7,7,7,7,6,8,0,0,0,0,0,0,1,41] // ngacang 8,9
@@ -30,26 +31,47 @@ class CongklakView: View {
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.textColor = .white
         label.textAlignment = .center
-        label.text = "\(currentPlayer.rawValue)'s turn"
+        label.text = "Decide Who Will Go First"
         label.frame = CGRect(x: 0, y: 20, width: deviceWidth, height: 50)
         label.center = CGPoint(x: deviceWidth/2, y: deviceHeight/2)
         return label
     }()
     
+    lazy var decideTurnButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 8
+        button.backgroundColor = .systemYellow
+        button.setTitle("Decide", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(decideTurn), for: .touchUpInside)
+        button.frame = CGRect(x: 0, y: 0, width: (100/414)*deviceHeight, height: (40/414)*deviceHeight)
+        return button
+    }()
+    
+    //MARK: - Life Cycle
+    
     override func setViews() {
-        currentPlayer = .player2
+        addSubview(playerTurnLabel)
+        addSubview(decideTurnButton)
+        backgroundColor = .black
+        decideTurnButton.center = CGPoint(x: deviceWidth-((125/896)*deviceWidth), y: deviceHeight-(55/414)*deviceHeight)
+    }
+    
+    override func onViewDidLoad() {
         fillHoles()
         generateHoles()
-        addSubview(playerTurnLabel)
-        backgroundColor = .black
     }
+    
+    //MARK: - Fill Hole
     
     func fillHoles() {
         holes = Array(repeating: 7, count: 16)
         holes[7] = 0
         holes[15] = 0
     }
-
+    
+    //MARK: - Create Button
+    
     func generateHoles() {
         for i in 0..<holes.count {
             addButton(tag: i)
@@ -93,8 +115,7 @@ class CongklakView: View {
             holeButton.backgroundColor = .systemRed
             holeButton.center = CGPoint(x: player2X + CGFloat(tag-7)*space, y: player2Y)
         }
-        
-        setButtonColor(tag: tag, button: holeButton)
+
         holeButton.setTitle("\(holes[tag])", for: .normal)
         holeButton.tag = tag
         buttons.append(holeButton)
@@ -102,24 +123,19 @@ class CongklakView: View {
         addSubview(holeButton)
     }
     
-    func setButtonColor(tag: Int, button: UIButton) {
-        if currentPlayer == .player1 {
-            if tag <= 7 {
-                button.alpha = 1
-            }
-        }
-        else if currentPlayer == .player2 {
-            if tag > 7 {
-                button.alpha = 1
-            }
-        }
-    }
+    //MARK: - Buttons Setting
     
     func lockButton() {
         for button in buttons {
             button.isEnabled = false
             button.alpha = 0.3
         }
+    }
+    
+    //MARK: - @objc target
+    
+    @objc func decideTurn() {
+        decideTurnTapped?(true)
     }
     
     @objc func pickHole(sender: UIButton) {

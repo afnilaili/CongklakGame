@@ -9,6 +9,8 @@ import UIKit
 
 extension CongklakController {
     
+    //MARK: - Skip Opponent Store house
+    
     func isSkipOpponentStoreHouse(index: Int) -> Int {
         var indx: Int!
         indx = index
@@ -26,6 +28,8 @@ extension CongklakController {
             return index
         }
     }
+    
+    //MARK: - If the last hole into which player dropped a shell
     
     func isLastSheeld(index: Int) {
             //CEK APAKAH DI STOREHOUSE MILIK SENDIRI
@@ -83,24 +87,7 @@ extension CongklakController {
             }
         }
     
-    func updateAfterTembak(index: Int, oppositeIndex: Int) {
-        if screenView.currentPlayer == .player1 {
-            screenView.holes[7] += screenView.holes[oppositeIndex]+1
-            screenView.holes[index] = 0
-            screenView.holes[oppositeIndex] = 0
-            
-            screenView.buttons[oppositeIndex].alpha = 1
-            screenView.buttons[7].alpha = 1
-        }
-        else {
-            screenView.holes[15] += screenView.holes[oppositeIndex]+1
-            screenView.holes[index] = 0
-            screenView.holes[oppositeIndex] = 0
-            
-            screenView.buttons[oppositeIndex].alpha = 1
-            screenView.buttons[15].alpha = 1
-        }
-    }
+    //MARK: - do Tembak
     
     func tembak(index: Int) {
         if totalSteps >= 15 { // UNTUK CEK SUDAH SATU PUTARAN/BLM
@@ -121,6 +108,27 @@ extension CongklakController {
             updateNumberOfShells(index: index)
         }
     }
+    
+    func updateAfterTembak(index: Int, oppositeIndex: Int) {
+        if screenView.currentPlayer == .player1 {
+            screenView.holes[7] += screenView.holes[oppositeIndex]+1
+            screenView.holes[index] = 0
+            screenView.holes[oppositeIndex] = 0
+            
+            screenView.buttons[oppositeIndex].alpha = 1
+            screenView.buttons[7].alpha = 1
+        }
+        else {
+            screenView.holes[15] += screenView.holes[oppositeIndex]+1
+            screenView.holes[index] = 0
+            screenView.holes[oppositeIndex] = 0
+            
+            screenView.buttons[oppositeIndex].alpha = 1
+            screenView.buttons[15].alpha = 1
+        }
+    }
+    
+    //MARK: - Switch Player's Turn
     
     func switchTurn() {
         if screenView.currentPlayer == .player1 {
