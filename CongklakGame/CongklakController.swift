@@ -47,26 +47,20 @@ class CongklakController: ViewController<CongklakView> {
             if shellsInHand > 0 {
                 totalSteps += 1
                 
-                screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
+                screenView.playerTurnLabel.text = "Shells in hands : \(shellsInHand-1)"
                 
-                // SKIP NGACANG HOLE
+                // SKIP NGACANG HOLES
                 index = skipNgacang(index: index)
                 
-                // CHECK IF THE HOLE IS THE LAST ELEMENT OF ARRAY
+                // CHECK IF THE HOLE IS THE LAST ELEMENT OF ARRAY (menghindari index out of range)
                 if index > screenView.holes.count-1 {
                     index = 0
                 }
                 // SKIP STORE HOUSE LAWAN
-                if index == 15 && screenView.currentPlayer != .player2 {
-                    index = 0
-                }
-                // SKIP STORE HOUSE LAWAN
-                if index == 7 && screenView.currentPlayer != .player1 {
-                    index += 1
-                }
-                
-                //UPDATE UI
-                updateUI(index: index)
+                index = isSkipOpponentStoreHouse(index: index)
+
+                // ONLY THE HOLE THAT IS GETTING A TURN IS ON
+                holeUIUpdate(index: index)
                 
                 // CEK IF SHELLS IN HAND SISA 1
                 if shellsInHand == 1 {
@@ -76,7 +70,6 @@ class CongklakController: ViewController<CongklakView> {
                 else {
                     screenView.holes[index] += 1
                     shellsInHand -= 1
-                    //screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
                 }
                 
                 updateNumberOfSheelds(index: index)
@@ -90,7 +83,7 @@ class CongklakController: ViewController<CongklakView> {
         })
     }
     
-    func updateUI(index: Int) {
+    func holeUIUpdate(index: Int) {
         if previousIndex != nil {
             screenView.buttons[previousIndex].alpha = 0.3
         }
@@ -137,7 +130,7 @@ class CongklakController: ViewController<CongklakView> {
                 screenView.buttons[i].alpha = 1
             }
         }
-        
+        // PLAYER CAN'T TAKE THE SHEELLS FROM NGACANG HOLES
         if isNgacang {
             for i in ngacangs {
                 screenView.buttons[i].isEnabled = false

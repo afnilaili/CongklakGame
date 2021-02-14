@@ -19,26 +19,29 @@ extension CongklakController {
         if screenView.holes[storeHouse] > 49 {
             leftover = screenView.holes[storeHouse] - 49
             //screenView.holes = [0,0,0,0,0,14,0,0,7,7,7,7,7,7,7,0] // NGETES NGACANG BISA DITEMBAK/TIDAK
-            screenView.holes = [0,0,0,0,0,3,0,0,7,7,7,7,7,7,7,0] // NGETES NGACANG BISA DIAMBIL/TIDAK
+            //screenView.holes = [0,0,0,0,0,3,0,0,7,7,7,7,7,7,7,0] // NGETES NGACANG BISA DIAMBIL/TIDAK
             
-//            for i in smallestIndex..<storeHouse {
-//                // PLAYER'S SIDE - RECOUNTS THE SHELLS INTO EACH HOLE
-//                screenView.holes[i] = 7
-//                screenView.holes[storeHouse] = leftover
-//                print(screenView.holes)
-//            }
+            // PLAYER'S SIDE - RECOUNTS THE SHELLS INTO EACH HOLE
+            for i in smallestIndex..<storeHouse {
+                screenView.holes[i] = 7
+                screenView.holes[storeHouse] = leftover
+                print(screenView.holes)
+            }
             
             // OPPONENT'S SIDE - RECOUNTS THE SHELLS INTO EACH HOLE
             numberOfOpponentShells = 49 - leftover
             ngacang = 7 - numberOfOpponentShells/7
             print(ngacang)
             
+            // PASTIKAN NGACANG HOLES TIDAK BOLEH LEBIH DARI 3
             if ngacang <= 3 {
+                // PASTIKAN ADA BIJI YANG ADA UNTUK DIBAGI KE NGACANG HOLES
                 if numberOfOpponentShells % 7 != 0 {
                     remainingShells = leftover % 7
                     // FILL LOSER'S HOLE
                     fillLoserHole(leftover: leftover, ngacang: ngacang, numberOfOpponent: numberOfOpponentShells, remainingShells: remainingShells)
                 }
+                // TIDAK ADA BIJI YANG ADA UNTUK DIBAGI KE NGACANG HOLES
                 else {
                     ngacang += 1
                     remainingShells = 7

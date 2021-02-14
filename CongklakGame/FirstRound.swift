@@ -9,28 +9,49 @@ import UIKit
 
 extension CongklakController {
     
+    func isSkipOpponentStoreHouse(index: Int) -> Int {
+        var indx: Int!
+        indx = index
+        // SKIP STORE HOUSE LAWAN
+        if indx == 15 && screenView.currentPlayer != .player2 {
+            indx = 0
+            return indx
+        }
+        // SKIP STORE HOUSE LAWAN
+        else if indx == 7 && screenView.currentPlayer != .player1 {
+            indx += 1
+            return indx
+        }
+        else {
+            return index
+        }
+    }
+    
     func isLastSheeld(index: Int) {
             //CEK APAKAH DI STOREHOUSE MILIK SENDIRI
             if (index == 7 && screenView.currentPlayer == .player1) || (index == 15 && screenView.currentPlayer == .player2){
                 screenView.holes[index] += 1
                 shellsInHand -= 1
-                totalSteps = 0 // CURRENT PLAYER GET ANOTHER TURN
-                screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
+                totalSteps = 0 // CURRENT PLAYER GET ANOTHER TURN - RESTART TOTAL STEPS
+                screenView.playerTurnLabel.text = "Shells in hands : \(shellsInHand)"
                 determineTheWinner()
-                updateNumberOfSheelds(index: index)
+                updateNumberOfShells(index: index)
                 unlockButton()
                 timer?.invalidate()
             }
 
             // KETIKA BUKAN DI STOREHOUSE
             if index != 7 && index != 15 {
-                // CEK APAKAH ADA SHEELDS DI CURRENTHOLE
+                // CEK APAKAH ADA SHELLS DI CURRENTHOLE
                 if screenView.holes[index] != 0 {
+                    // CEK APAKAH ADA NGACANG HOLES
                     if isNgacang {
-                        if !ngacangs.contains(index) {  // CAN'T TAKE SHELLS FROM NGACANG HOLE
+                        // BUKAN DI NGACANG HOLES
+                        if !ngacangs.contains(index) {
                             shellsInHand = screenView.holes[index]+1
                             screenView.holes[index] = 0
                         }
+                        // CAN'T TAKE SHELLS FROM NGACANG HOLE
                         else {
                             shellsInHand -= 1
                             screenView.holes[index] += 1
@@ -40,11 +61,13 @@ extension CongklakController {
                             }
                         }
                     }
+                    // BELUM ADA NGACANG HOLES
                     else {
                         shellsInHand = screenView.holes[index]+1
                         screenView.holes[index] = 0
                     }
                 }
+                // TIDAK ADA SHELLS DI CURRENTHOLE
                 else {
                     screenView.holes[index] += 1
                     shellsInHand -= 1
@@ -82,18 +105,20 @@ extension CongklakController {
     func tembak(index: Int) {
         if totalSteps >= 15 { // UNTUK CEK SUDAH SATU PUTARAN/BLM
             let oppositeIndex = 14 - index
+            // JIKA ADA NGACANG HOLES
             if isNgacang {
+                // PASTIKAN CURRENT HOLE BUKAN NGACANG HOLES
                 if !ngacangs.contains(oppositeIndex), screenView.holes[oppositeIndex] != 0 {
                     updateAfterTembak(index: index, oppositeIndex: oppositeIndex)
                 }
             }
+            // BELUM ADA NGACANG HOLES
             else {
                 if screenView.holes[oppositeIndex] != 0 {
                     updateAfterTembak(index: index, oppositeIndex: oppositeIndex)
                 }
             }
-            updateNumberOfSheelds(index: index)
-            //screenView.playerTurnLabel.text = "Sheelds in hands : \(shellsInHand)"
+            updateNumberOfShells(index: index)
         }
     }
     
