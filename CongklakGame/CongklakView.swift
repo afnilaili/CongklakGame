@@ -20,7 +20,7 @@ class CongklakView: View {
     var decideTurnTapped: ((Bool) -> Void)?
     var restartTapped: ((Bool) -> Void)?
     var holes: [Int] = [] //Fill holes
-//    var holes = [0,0,0,0,0,0,1,41,7,7,7,7,7,7,6,8] // ngacang 0,1
+    //var holes = [0,0,0,0,0,0,1,41,7,7,7,7,7,7,6,8] // ngacang 0,1
 //    var holes = [7,7,7,7,7,7,6,8,0,0,0,0,0,0,1,41] // ngacang 8,9
     var currentPlayer: Player!
     var buttons: [UIButton] = []

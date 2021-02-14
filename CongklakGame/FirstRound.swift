@@ -38,6 +38,9 @@ extension CongklakController {
                 shellsInHand -= 1
                 totalSteps = 0 // CURRENT PLAYER GET ANOTHER TURN - RESTART TOTAL STEPS
                 screenView.playerTurnLabel.text = "Shells in hands : \(shellsInHand)"
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.3) {
+                    self.screenView.playerTurnLabel.text = "\(self.screenView.currentPlayer.rawValue)'s turn"
+                }
                 determineTheWinner()
                 updateNumberOfShells(index: index)
                 unlockButton()

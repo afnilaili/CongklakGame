@@ -124,7 +124,7 @@ extension CongklakController {
     }
     
     func updateUINgacang(index: Int) {
-        screenView.buttons[index].backgroundColor = .yellow
+        screenView.buttons[index].backgroundColor = .lightGray
         screenView.buttons[index].setTitleColor(.black, for: .normal)
         isNgacang = true
         ngacangPlayer = screenView.currentPlayer

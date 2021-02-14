@@ -175,24 +175,34 @@ class CongklakController: ViewController<CongklakView> {
     //MARK: - Restart The Game
     
     func restart() {
-//        screenView.restartTapped?(false)
+        //MARK: Stop Game
+        shellsInHand = 0
+        
+        //MARK: Non-Aktifkan Restart Button
         screenView.restartButton.alpha = 0.3
         screenView.restartButton.isEnabled = false
         
-        //MARK: MUNCULIN LAGI BUTTON DECIDE
+        //MARK: Aktifkan Decide Button
         screenView.decideTurnButton.alpha = 1
         screenView.decideTurnTapped?(false)
         
+        //MARK: Update Shells And Holes
         screenView.fillHoles()
-        screenView.playerTurnLabel.text = "Decide Who Will Go First"
         for i in 0...15 {
             screenView.buttons[i].isEnabled = false
             screenView.buttons[i].alpha = 0.3
+            screenView.buttons[i].setTitle("\(screenView.holes[i])", for: .normal)
         }
+        
+        //MARK: Update Text Label
+        screenView.playerTurnLabel.text = "Decide Who Will Go First"
+        
+        //MARK: Restart Properties
         totalSteps = 0
         gotTheWinner = false
         isNgacang = false
         ngacangs = []
+        
     }
     
 }
