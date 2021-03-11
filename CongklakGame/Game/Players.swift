@@ -8,6 +8,6 @@
 import UIKit
 
 enum Player: String {
-    case player1_Blue
-    case player2_Red
+    case Player_Blue
+    case Player_Red
 }

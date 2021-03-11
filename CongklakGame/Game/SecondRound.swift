@@ -71,13 +71,13 @@ extension CongklakController {
         var storeHouse = Int()
         
         // CEK WHO'S THE WINNER
-        if screenView.currentPlayer == .player1_Blue {
+        if screenView.currentPlayer == .Player_Blue {
             largestIndex = 14
             smallestIndex = 8
             lastIndex = 7+ngacang
             storeHouse = 15
         }
-        else if screenView.currentPlayer == .player2_Red {
+        else if screenView.currentPlayer == .Player_Red {
             largestIndex = 6
             smallestIndex = 0
             lastIndex = ngacang - 1
@@ -117,7 +117,7 @@ extension CongklakController {
         if screenView.currentPlayer == ngacangPlayer {
             if isNgacang {
                 for i in ngacangs {
-                    if screenView.currentPlayer == .player2_Red && index == 16 {
+                    if screenView.currentPlayer == .Player_Red && index == 16 {
                         index =  0
                     }
                     if index == i {

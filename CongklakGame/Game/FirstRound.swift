@@ -15,12 +15,12 @@ extension CongklakController {
         var indx: Int!
         indx = index
         // SKIP STORE HOUSE LAWAN
-        if indx == 15 && screenView.currentPlayer != .player2_Red {
+        if indx == 15 && screenView.currentPlayer != .Player_Red {
             indx = 0
             return indx
         }
         // SKIP STORE HOUSE LAWAN
-        else if indx == 7 && screenView.currentPlayer != .player1_Blue {
+        else if indx == 7 && screenView.currentPlayer != .Player_Blue {
             indx += 1
             return indx
         }
@@ -33,7 +33,7 @@ extension CongklakController {
     
     func isLastSheeld(index: Int) {
             //CEK APAKAH DI STOREHOUSE MILIK SENDIRI
-            if (index == 7 && screenView.currentPlayer == .player1_Blue) || (index == 15 && screenView.currentPlayer == .player2_Red){
+            if (index == 7 && screenView.currentPlayer == .Player_Blue) || (index == 15 && screenView.currentPlayer == .Player_Red){
                 holes[index] += 1
                 shellsInHand -= 1
                 totalSteps = 0 // CURRENT PLAYER GET ANOTHER TURN - RESTART TOTAL STEPS
@@ -115,7 +115,7 @@ extension CongklakController {
     }
     
     func updateAfterTembak(index: Int, oppositeIndex: Int) {
-        if screenView.currentPlayer == .player1_Blue {
+        if screenView.currentPlayer == .Player_Blue {
             holes[7] += holes[oppositeIndex]+1
             holes[index] = 0
             holes[oppositeIndex] = 0
@@ -136,11 +136,11 @@ extension CongklakController {
     //MARK: - Switch Player's Turn
     
     func switchTurn() {
-        if screenView.currentPlayer == .player1_Blue {
-            screenView.currentPlayer = .player2_Red
+        if screenView.currentPlayer == .Player_Blue {
+            screenView.currentPlayer = .Player_Red
         }
-        else if screenView.currentPlayer == .player2_Red {
-            screenView.currentPlayer = .player1_Blue
+        else if screenView.currentPlayer == .Player_Red {
+            screenView.currentPlayer = .Player_Blue
         }
         totalSteps = 0
         screenView.playerTurnLabel.text = "\(screenView.currentPlayer.rawValue) turn"

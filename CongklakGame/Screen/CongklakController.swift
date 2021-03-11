@@ -19,6 +19,7 @@ class CongklakController: ViewController<CongklakView> {
     var ngacangs: [Int] = []
     var ngacangPlayer: Player!
 	
+    //Holes di view = holes di controller. holes di controller != holes di view
 	var holes: [Int] = [] {
 		didSet {
 			screenView.holes = holes

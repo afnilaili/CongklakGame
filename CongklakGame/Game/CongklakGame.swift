@@ -19,8 +19,8 @@ extension CongklakController {
     //MARK: - Choose Player
     
     func pickPlayer() {
-        let player1 = Player.player1_Blue
-        let player2 = Player.player2_Red
+        let player1 = Player.Player_Blue
+        let player2 = Player.Player_Red
         let players: [Player] = [player1, player1, player2, player1, player2, player2, player1, player2]
         let getPlayer = players.randomElement()!
         
@@ -128,7 +128,7 @@ extension CongklakController {
     }
     
     func unlockButton() {
-        if screenView.currentPlayer == .player1_Blue {
+        if screenView.currentPlayer == .Player_Blue {
             for i in 0...7 {
                 if i<7 {
                     screenView.buttons[i].isEnabled = true
