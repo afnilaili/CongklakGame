@@ -1,54 +1,30 @@
 //
-//  CongklakController.swift
+//  CongklakGame.swift
 //  CongklakGame
 //
-//  Created by Afni Laili on 12/02/21.
+//  Created by Afni Laili on 14/02/21.
 //
 
 import UIKit
 
-class CongklakController: ViewController<CongklakView> {
+extension CongklakController {
+    //MARK: - Fill Holes
     
-    var shellsInHand = Int()
-    var timer: Timer?
-    var previousIndex: Int!
-    var totalSteps = 0
-    var gotTheWinner = false
-    var isNgacang = false
-    var ngacangs: [Int] = []
-    var ngacangPlayer: Player!
-    
-    //MARK: - Life Cycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        //Decide Turn
-        screenView.decideTurnTapped = { [weak self] value in
-            if value {
-                self?.pickPlayer()
-                self?.screenView.decideTurnButton.alpha = 0.3
-            }
-        }
-        //Start Playing
-        screenView.holeTapped = { [weak self] index in
-            self?.startPlaying(pickedHole: index)
-        }
-        //Restart Game
-        screenView.restartTapped = { [weak self] value in
-            self?.restart()
-        }
-        
+    func fillHoles() {
+        holes = Array(repeating: 7, count: 16)
+        holes[7] = 0
+        holes[15] = 0
     }
     
     //MARK: - Choose Player
     
     func pickPlayer() {
-        let player1 = Player.player1
-        let player2 = Player.player2
+        let player1 = Player.Player_Blue
+        let player2 = Player.Player_Red
         let players: [Player] = [player1, player1, player2, player1, player2, player2, player1, player2]
         let getPlayer = players.randomElement()!
         
-        self.screenView.playerTurnLabel.text = "\(getPlayer)'s turn"
+        self.screenView.playerTurnLabel.text = "\(getPlayer) turn"
         screenView.currentPlayer = getPlayer
         unlockButton()
     }
@@ -59,9 +35,9 @@ class CongklakController: ViewController<CongklakView> {
         var index = pickedHole
         
         isEmptyHole(index: index)
-        shellsInHand = screenView.holes[index]
-        screenView.holes[index] = 0
-        screenView.buttons[index].setTitle("\(screenView.holes[index])", for: .normal)
+        shellsInHand = holes[index]
+        holes[index] = 0
+        screenView.buttons[index].setTitle("\(holes[index])", for: .normal)
         index += 1
         
         timer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: true, block: { [self] timer in
@@ -74,7 +50,7 @@ class CongklakController: ViewController<CongklakView> {
                 index = skipNgacang(index: index)
                 
                 // CHECK IF THE HOLE IS THE LAST ELEMENT OF ARRAY (menghindari index out of range)
-                if index > screenView.holes.count-1 {
+                if index > holes.count-1 {
                     index = 0
                 }
                 // SKIP STORE HOUSE LAWAN
@@ -89,12 +65,12 @@ class CongklakController: ViewController<CongklakView> {
                 }
                 // SHELLS MASIH ADA > 1
                 else {
-                    screenView.holes[index] += 1
+                    holes[index] += 1
                     shellsInHand -= 1
                 }
                 
                 updateNumberOfShells(index: index)
-                print(screenView.holes)
+                print(holes)
                 previousIndex = index
                 index += 1
                 
@@ -108,7 +84,7 @@ class CongklakController: ViewController<CongklakView> {
     
     // UNTUK CEK HOLE YANG DIPILIH APAKAH ADA ISINYA(TIDAK KOSONG)
     func isEmptyHole(index: Int) {
-        if screenView.holes[index] == 0 {
+        if holes[index] == 0 {
             screenView.playerTurnLabel.text = "IT'S EMPTY. CHOOSE ANOTHER HOLE"
             unlockButton()
         }
@@ -124,28 +100,35 @@ class CongklakController: ViewController<CongklakView> {
     func updateNumberOfShells(index: Int) {
         if gotTheWinner {
             for i in 0...15 {
-                screenView.buttons[i].setTitle("\(screenView.holes[i])", for: .normal)
-                screenView.buttons[i].alpha = 1
-                DispatchQueue.main.asyncAfter(deadline: .now()+1) {
-                    self.screenView.buttons[i].alpha = 0.3
-                    self.unlockButton()
-                    self.screenView.playerTurnLabel.text = "\(self.screenView.currentPlayer.rawValue)'s turn"
+                screenView.buttons[i].setTitle("\(holes[i])", for: .normal)
+                if !isGameOver {
+                    screenView.buttons[i].alpha = 1
+                    DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                        self.screenView.buttons[i].alpha = 0.3
+                        self.unlockButton()
+                        self.screenView.playerTurnLabel.text = "\(self.screenView.currentPlayer.rawValue) turn"
+                    }
+                }
+                else {
+                    screenView.buttons[i].alpha = 1
+                    screenView.decideTurnButton.isEnabled = true
                 }
             }
             gotTheWinner = false
         }
-        if shellsInHand == 0, screenView.holes[index] == 0, index != 7 && index != 15 {
+        
+        if shellsInHand == 0, holes[index] == 0, index != 7 && index != 15 {
             for i in 0...15 {
-                screenView.buttons[i].setTitle("\(screenView.holes[i])", for: .normal)
+                screenView.buttons[i].setTitle("\(holes[i])", for: .normal)
             }
         }
         else {
-            screenView.buttons[index].setTitle("\(screenView.holes[index])", for: .normal)
+            screenView.buttons[index].setTitle("\(holes[index])", for: .normal)
         }
     }
     
     func unlockButton() {
-        if screenView.currentPlayer == .player1 {
+        if screenView.currentPlayer == .Player_Blue {
             for i in 0...7 {
                 if i<7 {
                     screenView.buttons[i].isEnabled = true
@@ -181,14 +164,22 @@ class CongklakController: ViewController<CongklakView> {
         
         //MARK: Aktifkan Decide Button
         screenView.decideTurnButton.alpha = 1
-        screenView.decideTurnTapped?(false)
+        screenView.decideTurnButton.isEnabled = true
+        screenView.decideTurnButton.setTitle("Toss-Up", for: .normal)
         
         //MARK: Update Shells And Holes
-        screenView.fillHoles()
+        fillHoles()
         for i in 0...15 {
             screenView.buttons[i].isEnabled = false
+            screenView.buttons[i].setTitleColor(.white, for: .normal)
             screenView.buttons[i].alpha = 0.3
-            screenView.buttons[i].setTitle("\(screenView.holes[i])", for: .normal)
+            screenView.buttons[i].setTitle("\(holes[i])", for: .normal)
+            if i <= 7 {
+                screenView.buttons[i].backgroundColor = .systemBlue
+            }
+            else {
+                screenView.buttons[i].backgroundColor = .systemRed
+            }
         }
         
         //MARK: Update Text Label
@@ -198,6 +189,7 @@ class CongklakController: ViewController<CongklakView> {
         totalSteps = 0
         gotTheWinner = false
         isNgacang = false
+        isGameOver = false
         ngacangs = []
         
     }

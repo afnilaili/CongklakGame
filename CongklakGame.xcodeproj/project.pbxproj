@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		091960F825D95C5D0067479E /* Double+ProportionalWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091960F725D95C5D0067479E /* Double+ProportionalWidth.swift */; };
+		722633FD25D970DE00CCE6C3 /* CongklakGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722633FC25D970DE00CCE6C3 /* CongklakGame.swift */; };
+		7226340925D98A5400CCE6C3 /* Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7226340825D98A5400CCE6C3 /* Players.swift */; };
 		72B21CE925D7D4880063F28E /* SecondRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B21CE825D7D4880063F28E /* SecondRound.swift */; };
 		72B21CF425D834910063F28E /* FirstRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B21CF325D834910063F28E /* FirstRound.swift */; };
 		72B21CFF25D836C20063F28E /* Winner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B21CFE25D836C20063F28E /* Winner.swift */; };
@@ -40,6 +43,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		091960F725D95C5D0067479E /* Double+ProportionalWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+ProportionalWidth.swift"; sourceTree = "<group>"; };
+		722633FC25D970DE00CCE6C3 /* CongklakGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CongklakGame.swift; sourceTree = "<group>"; };
+		7226340825D98A5400CCE6C3 /* Players.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Players.swift; sourceTree = "<group>"; };
 		72B21CE825D7D4880063F28E /* SecondRound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondRound.swift; sourceTree = "<group>"; };
 		72B21CF325D834910063F28E /* FirstRound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRound.swift; sourceTree = "<group>"; };
 		72B21CFE25D836C20063F28E /* Winner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Winner.swift; sourceTree = "<group>"; };
@@ -86,6 +92,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		091960F625D95C160067479E /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				091960F725D95C5D0067479E /* Double+ProportionalWidth.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		722633F825D96FBE00CCE6C3 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				722633FC25D970DE00CCE6C3 /* CongklakGame.swift */,
+				72B21CF325D834910063F28E /* FirstRound.swift */,
+				72B21CE825D7D4880063F28E /* SecondRound.swift */,
+				72B21CFE25D836C20063F28E /* Winner.swift */,
+				7226340825D98A5400CCE6C3 /* Players.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		7226340425D9710200CCE6C3 /* Screen */ = {
+			isa = PBXGroup;
+			children = (
+				72FF93B725D638990025716F /* CongklakView.swift */,
+				72FF93BF25D63CE90025716F /* CongklakController.swift */,
+			);
+			path = Screen;
+			sourceTree = "<group>";
+		};
 		72FF936725D631600025716F = {
 			isa = PBXGroup;
 			children = (
@@ -111,12 +146,10 @@
 			children = (
 				72FF937325D631600025716F /* AppDelegate.swift */,
 				72FF937525D631600025716F /* SceneDelegate.swift */,
+				7226340425D9710200CCE6C3 /* Screen */,
+				722633F825D96FBE00CCE6C3 /* Game */,
 				72FF93A625D634540025716F /* Base */,
-				72FF93B725D638990025716F /* CongklakView.swift */,
-				72FF93BF25D63CE90025716F /* CongklakController.swift */,
-				72B21CF325D834910063F28E /* FirstRound.swift */,
-				72B21CE825D7D4880063F28E /* SecondRound.swift */,
-				72B21CFE25D836C20063F28E /* Winner.swift */,
+				091960F625D95C160067479E /* Extension */,
 				72FF937C25D631620025716F /* Assets.xcassets */,
 				72FF937E25D631620025716F /* LaunchScreen.storyboard */,
 				72FF938125D631620025716F /* Info.plist */,
@@ -280,15 +313,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7226340925D98A5400CCE6C3 /* Players.swift in Sources */,
 				72FF93B825D638990025716F /* CongklakView.swift in Sources */,
 				72FF93C025D63CE90025716F /* CongklakController.swift in Sources */,
 				72FF93B025D635A00025716F /* ViewController.swift in Sources */,
 				72B21CF425D834910063F28E /* FirstRound.swift in Sources */,
 				72FF93A825D634640025716F /* View.swift in Sources */,
 				72FF937425D631600025716F /* AppDelegate.swift in Sources */,
+				091960F825D95C5D0067479E /* Double+ProportionalWidth.swift in Sources */,
 				72B21CE925D7D4880063F28E /* SecondRound.swift in Sources */,
 				72B21CFF25D836C20063F28E /* Winner.swift in Sources */,
 				72FF937625D631600025716F /* SceneDelegate.swift in Sources */,
+				722633FD25D970DE00CCE6C3 /* CongklakGame.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,6 +495,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ARYYX3JQBU;
 				INFOPLIST_FILE = CongklakGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -478,6 +515,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ARYYX3JQBU;
 				INFOPLIST_FILE = CongklakGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
